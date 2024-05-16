@@ -23,7 +23,7 @@ func Connect(databaseURL string) {
 	log.Println("Database connected!")
 }
 
-func sqltable() {
+func SqlTable() {
 	query := `
     CREATE TABLE IF NOT EXISTS users (
         id TEXT PRIMARY KEY,
