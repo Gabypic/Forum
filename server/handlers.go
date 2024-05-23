@@ -18,11 +18,6 @@ func renderTemplate(w http.ResponseWriter, tmpl string, data map[string]interfac
 	}
 }
 
-func handleStartPage(w http.ResponseWriter, r *http.Request) {
-	log.Println("Rendering start template...")
-	renderTemplate(w, "templates", nil)
-}
-
 func handleRegisterPage(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		renderTemplate(w, "account_creation", nil)
