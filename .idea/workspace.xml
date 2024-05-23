@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67bda415-c808-46a1-bba4-c0e17f7b8749" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/server/handlers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/server.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/forum.go" beforeDir="false" afterPath="$PROJECT_DIR$/forum.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/mdp.go" beforeDir="false" afterPath="$PROJECT_DIR$/mdp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/settings.go" beforeDir="false" afterPath="$PROJECT_DIR$/settings.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/uuid.go" beforeDir="false" afterPath="$PROJECT_DIR$/uuid.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/main.go" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/templates.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,31 +34,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultGoTemplateProperty": "Go File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "go.sdk.automatically.set": "true",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/gabpi/Forum",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/gabpi/Forum&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\gabpi\Forum\application" />
       <recent name="C:\Users\gabpi\Forum\server" />
       <recent name="C:\Users\gabpi\Forum\start" />
       <recent name="C:\Users\gabpi\Forum" />
-      <recent name="C:\Users\gabpi\Forum\application" />
     </key>
   </component>
   <component name="RunManager">
@@ -77,6 +71,15 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="go build Forum/start" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="Forum" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="Forum/start" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/start/main.go" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="Forum" />
       <working_directory value="$PROJECT_DIR$" />
@@ -87,6 +90,11 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build Forum/start" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
