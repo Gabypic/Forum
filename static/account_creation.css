@@ -14,7 +14,7 @@ body {
     align-items: center;
 }
 
-.create_account {
+.create_account, .connection-return {
     background-color: #fff;
     padding: 20px 20px 20px 20px;
     border-radius: 8px;
@@ -23,7 +23,7 @@ body {
     margin-right: 20px;
 }
 
-.create_account h2 {
+.create_account h2, .connection-return h2 {
     margin-bottom: 20px;
 }
 
@@ -36,7 +36,7 @@ body {
     border-radius: 4px;
 }
 
-.create_account button {
+.create_account button, .connection-return button {
     width: 100%;
     padding: 10px;
     color: white;
@@ -51,4 +51,12 @@ body {
 
 .create_account button:hover {
     background-color: #45a049;
+}
+
+.connection-return button {
+    background-color: #015AEC;
+}
+
+.connection-return button:hover {
+    background-color: #0046C2;
 }

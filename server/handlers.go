@@ -34,6 +34,14 @@ func handleLoginPage(w http.ResponseWriter, r *http.Request) {
 	LoginUserHandler(w, r)
 }
 
+func handleHomePage(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		renderTemplate(w, "home", nil)
+		return
+	}
+	LoginUserHandler(w, r)
+}
+
 func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)

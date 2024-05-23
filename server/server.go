@@ -21,6 +21,8 @@ func Start() {
 
 	http.HandleFunc("/create_account", handleRegisterPage)
 
+	http.HandleFunc("/home", handleHomePage)
+
 	log.Println("Listening on :8080...")
 
 	if err := http.ListenAndServe(":8080", nil); err != nil {
