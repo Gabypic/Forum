@@ -15,7 +15,7 @@ func Start() {
 
 	application.SqlTable()
 
-	http.Handle("/web/", http.StripPrefix("/web/", http.FileServer(http.Dir("web"))))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	http.HandleFunc("/start", handleLoginPage)
 
