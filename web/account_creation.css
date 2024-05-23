@@ -14,7 +14,7 @@ body {
     align-items: center;
 }
 
-.login-container, .account-creation {
+.create_account {
     background-color: #fff;
     padding: 20px 20px 20px 20px;
     border-radius: 8px;
@@ -23,12 +23,12 @@ body {
     margin-right: 20px;
 }
 
-.login-container h2, .account-creation h2 {
+.create_account h2 {
     margin-bottom: 20px;
 }
 
-.login-container input[type="email"],
-.login-container input[type="password"] {
+.create_account input[type="email"],
+.create_account input[type="password"] {
     width: 96.4%;
     padding: 10px;
     margin: 10px 0;
@@ -36,7 +36,7 @@ body {
     border-radius: 4px;
 }
 
-.login-container button, .account-creation button {
+.create_account button {
     width: 100%;
     padding: 10px;
     color: white;
@@ -45,18 +45,10 @@ body {
     cursor: pointer;
 }
 
-.login-container button {
+.create_account button {
     background-color: #4CAF50;
 }
 
-.login-container button:hover {
+.create_account button:hover {
     background-color: #45a049;
-}
-
-.account-creation button {
-    background-color: #015AEC;
-}
-
-.account-creation button:hover {
-    background-color: #0046C2;
 }
