@@ -15,12 +15,11 @@ func Start() {
 
 	application.SqlTable()
 
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	http.Handle("/web/", http.StripPrefix("/web/", http.FileServer(http.Dir("web"))))
 
 	http.HandleFunc("/start", handleLoginPage)
 
 	http.HandleFunc("/create_account", handleRegisterPage)
-	http.HandleFunc("/login", handleLoginPage)
 
 	log.Println("Listening on :8080...")
 
