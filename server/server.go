@@ -19,6 +19,12 @@ func Start() {
 
 	http.HandleFunc("/start", handleStartPage)
 
+	http.HandleFunc("/register", handleRegisterPage)
+	http.HandleFunc("/login", handleLoginPage)
+
+	http.HandleFunc("/register", RegisterUserHandler)
+	http.HandleFunc("/login", LoginUserHandler)
+
 	log.Println("Listening on :8080...")
 
 	if err := http.ListenAndServe(":8080", nil); err != nil {
