@@ -19,7 +19,7 @@ func Start() {
 
 	http.HandleFunc("/start", handleStartPage)
 
-	http.HandleFunc("/register", handleRegisterPage)
+	http.HandleFunc("/create_account", handleRegisterPage)
 	http.HandleFunc("/login", handleLoginPage)
 
 	http.HandleFunc("/register", RegisterUserHandler)

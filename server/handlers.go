@@ -25,7 +25,7 @@ func handleStartPage(w http.ResponseWriter, r *http.Request) {
 
 func handleRegisterPage(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		renderTemplate(w, "register", nil)
+		renderTemplate(w, "account_creation", nil)
 		return
 	}
 	RegisterUserHandler(w, r)
