@@ -31,24 +31,14 @@ func handleLoginPage(w http.ResponseWriter, r *http.Request) {
 		renderTemplate(w, "login", nil)
 		return
 	}
-	LoginUserHandler(w, r)
 }
 
 func handleHomePageConnection(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		renderTemplate(w, "home", nil)
-		return
-	}
 	LoginUserHandler(w, r)
 }
 
 func handleHomePageRegister(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("yo")
 	RegisterUserHandler(w, r)
-	if r.Method == http.MethodGet {
-		renderTemplate(w, "home", nil)
-		return
-	}
 }
 
 func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -71,28 +61,32 @@ func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/home", http.StatusSeeOther)
+	renderTemplate(w, "home", nil)
 }
 
 func LoginUserHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
-		return
-	}
+	//if r.Method != http.MethodPost {
+	//	http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+	//	return
+	//}
 
 	email := r.FormValue("email")
 	password := r.FormValue("password")
 
 	user, err := application.GetUser(email)
+	fmt.Print("caca")
+	fmt.Println(user)
 	if err != nil || user == nil {
+		fmt.Println("1")
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 		return
 	}
 
 	if !application.CheckPassword(password, user.Password) {
+		fmt.Println("2")
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 		return
 	}
-
-	http.Redirect(w, r, "/start", http.StatusSeeOther)
+	fmt.Println("3")
+	renderTemplate(w, "home", nil)
 }

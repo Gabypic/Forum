@@ -28,7 +28,8 @@ body {
 }
 
 .create_account input[type="email"],
-.create_account input[type="password"] {
+.create_account input[type="password"],
+.create_account input[type="text"]{
     width: 96.4%;
     padding: 10px;
     margin: 10px 0;

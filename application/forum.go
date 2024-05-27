@@ -2,6 +2,7 @@ package application
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"time"
 
@@ -74,7 +75,7 @@ func CreateUser(user *User) error {
 	user.CreatedAt = time.Now()
 
 	query := `INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, ?)`
-	_, err = DB.Exec(query, "test", user.Email, user.Password, user.CreatedAt)
+	_, err = DB.Exec(query, user.Username, user.Email, user.Password, user.CreatedAt)
 	if err != nil {
 		log.Printf("Error creating user: %v", err)
 	}
@@ -84,14 +85,23 @@ func CreateUser(user *User) error {
 func GetUser(email string) (*User, error) {
 	var user User
 	query := `SELECT id, username, email, password, created_at FROM users WHERE email = ?`
-	err := DB.QueryRow(query, email).Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.CreatedAt)
+	value, err := DB.Query(query, email)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, nil
+			fmt.Println("err")
+			log.Printf("Error login user: %v", err)
+			return nil, err
 		}
 		log.Printf("Error login user: %v", err)
 	}
-	return &user, err
+	value.Next()
+	errs := value.Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.CreatedAt)
+	if errs != nil {
+		fmt.Print("errs")
+		fmt.Println(errs)
+		return nil, errs
+	}
+	return &user, nil
 }
 
 func UpdateUser(user *User) error {
