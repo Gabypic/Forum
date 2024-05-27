@@ -17,11 +17,13 @@ func Start() {
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
-	http.HandleFunc("/start", handleLoginPage)
+	http.HandleFunc("/login", handleLoginPage)
 
 	http.HandleFunc("/create_account", handleRegisterPage)
 
-	http.HandleFunc("/home", handleHomePage)
+	http.HandleFunc("/home", handleHomePageConnection)
+
+	http.HandleFunc("/register", handleHomePageRegister)
 
 	log.Println("Listening on :8080...")
 

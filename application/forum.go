@@ -73,8 +73,8 @@ func CreateUser(user *User) error {
 	user.Password = hashedPassword
 	user.CreatedAt = time.Now()
 
-	query := `INSERT INTO users (id, username, email, password, created_at) VALUES (?, ?, ?, ?, ?)`
-	_, err = DB.Exec(query, user.ID, user.Username, user.Email, user.Password, user.CreatedAt)
+	query := `INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, ?)`
+	_, err = DB.Exec(query, "test", user.Email, user.Password, user.CreatedAt)
 	if err != nil {
 		log.Printf("Error creating user: %v", err)
 	}

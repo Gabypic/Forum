@@ -6,6 +6,10 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    background-image: url('../images/fondLogin.webp');
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .container {
@@ -21,6 +25,10 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     margin-right: 20px;
+    background-image: url('../images/loginForum.png');
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .login-container h2, .account-creation h2 {

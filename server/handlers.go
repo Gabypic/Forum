@@ -2,6 +2,7 @@ package server
 
 import (
 	"Forum/application"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -23,7 +24,6 @@ func handleRegisterPage(w http.ResponseWriter, r *http.Request) {
 		renderTemplate(w, "account_creation", nil)
 		return
 	}
-	RegisterUserHandler(w, r)
 }
 
 func handleLoginPage(w http.ResponseWriter, r *http.Request) {
@@ -34,12 +34,21 @@ func handleLoginPage(w http.ResponseWriter, r *http.Request) {
 	LoginUserHandler(w, r)
 }
 
-func handleHomePage(w http.ResponseWriter, r *http.Request) {
+func handleHomePageConnection(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		renderTemplate(w, "home", nil)
 		return
 	}
 	LoginUserHandler(w, r)
+}
+
+func handleHomePageRegister(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("yo")
+	RegisterUserHandler(w, r)
+	if r.Method == http.MethodGet {
+		renderTemplate(w, "home", nil)
+		return
+	}
 }
 
 func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -62,7 +71,7 @@ func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/login", http.StatusSeeOther)
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }
 
 func LoginUserHandler(w http.ResponseWriter, r *http.Request) {

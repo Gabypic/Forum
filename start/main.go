@@ -1,6 +1,6 @@
 package main
 
-// http://localhost:8080/start
+// http://localhost:8080/login
 
 import (
 	"Forum/server"
