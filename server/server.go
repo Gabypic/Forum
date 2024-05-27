@@ -25,6 +25,8 @@ func Start() {
 
 	http.HandleFunc("/register", handleHomePageRegister)
 
+	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
+
 	log.Println("Listening on :8080...")
 
 	if err := http.ListenAndServe(":8080", nil); err != nil {
