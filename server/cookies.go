@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 )
@@ -14,6 +15,7 @@ func SetSessionCookie(w http.ResponseWriter, sessionID string) {
 		Secure:   true,
 		Expires:  time.Now().Add(24 * time.Hour),
 	}
+	fmt.Println(cookie)
 	http.SetCookie(w, cookie)
 }
 
@@ -22,6 +24,7 @@ func GetSessionCookie(r *http.Request) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	fmt.Println(cookie)
 	return cookie.Value, nil
 }
 
@@ -34,5 +37,6 @@ func ClearSessionCookie(w http.ResponseWriter) {
 		Secure:   true,
 		Expires:  time.Now().Add(-1 * time.Hour),
 	}
+	fmt.Println(cookie)
 	http.SetCookie(w, cookie)
 }

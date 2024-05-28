@@ -62,6 +62,9 @@ func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	user.ID = application.GenerateUUID()
 
+	session := CreateSession(user.Username)
+	SetSessionCookie(w, session.ID)
+
 	err := application.CreateUser(&user)
 	if err != nil {
 		http.Error(w, "Failed to register user", http.StatusInternalServerError)
@@ -86,6 +89,9 @@ func LoginUserHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 		return
 	}
+	fmt.Println(user.Username)
+	session := CreateSession(user.Username)
+	SetSessionCookie(w, session.ID)
 
 	if !application.CheckPassword(password, user.Password) {
 		fmt.Println("2")
