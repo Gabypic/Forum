@@ -81,8 +81,6 @@ func LoginUserHandler(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 
 	user, err := application.GetUser(email)
-	fmt.Print("caca")
-	fmt.Println(user)
 	if err != nil || user == nil {
 		fmt.Println("1")
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
