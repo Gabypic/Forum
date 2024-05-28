@@ -41,6 +41,13 @@ func handleHomePageRegister(w http.ResponseWriter, r *http.Request) {
 	RegisterUserHandler(w, r)
 }
 
+func handleCreatePost(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		renderTemplate(w, "createPost", nil)
+		return
+	}
+}
+
 func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)

@@ -1,6 +1,6 @@
 package server
 
-// http://localhost:8080/start
+// http://localhost:8080/login
 import (
 	"Forum/application"
 	"log"
@@ -24,6 +24,8 @@ func Start() {
 	http.HandleFunc("/home", handleHomePageConnection)
 
 	http.HandleFunc("/register", handleHomePageRegister)
+
+	http.HandleFunc("/createPost", handleCreatePost)
 
 	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
 

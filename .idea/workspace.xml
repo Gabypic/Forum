@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67bda415-c808-46a1-bba4-c0e17f7b8749" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/static/createPost.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/createPost.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forum.db" beforeDir="false" afterPath="$PROJECT_DIR$/forum.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/handlers.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/home.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/login.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

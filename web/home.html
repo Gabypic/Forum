@@ -10,13 +10,19 @@
 
 <header>
     <div class="search-bar">
-        <input type="text" placeholder="Recherche...">
+        <label>
+            <input type="text" placeholder="Recherche...">
+        </label>
     </div>
-    <div class="profile-btn">Profil</div>
+    <form method="GET">
+        <button class="profile-btn">Profil</button>
+    </form>
 </header>
 
 <div class="create">
-    <button type="submit">Créer un post</button>
+    <form action="/createPost" method="GET">
+        <button class="createBtn" type="submit">Créer un post</button>
+    </form>
 </div>
 
 </body>

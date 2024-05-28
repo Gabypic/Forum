@@ -7,7 +7,7 @@ body {
     align-items: center;
 }
 header {
-    width: 100%;
+    width: 97%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,7 +17,7 @@ header {
 }
 .search-bar {
     flex-grow: 1;
-    max-width: 600px;
+    max-width: 50%;
     margin: 0 auto;
 }
 .search-bar input {
@@ -33,18 +33,29 @@ header {
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
+    margin-right: 0.5%;
 }
+.profile-btn:hover {
+    background-color: #0056b3;
+}
+
 .create{
     margin: 20px 0;
     display: flex;
     justify-content: flex-end;
-    width: 100%;
+    width: 99%;
 }
 .create button {
-    background-color: #28a745;
+    background-color: #44C200;
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
 }
+
+.create button:hover {
+    background-color: #28a745;
+}
+
+
