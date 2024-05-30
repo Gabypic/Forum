@@ -93,13 +93,17 @@ func GetUser(email string) (*User, error) {
 			return nil, err
 		}
 		log.Printf("Error login user: %v", err)
+		return nil, err
 	}
-	value.Next()
-	errs := value.Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.CreatedAt)
-	if errs != nil {
-		fmt.Print("errs")
-		fmt.Println(errs)
-		return nil, errs
+	defer value.Close()
+
+	if value.Next() {
+		errs := value.Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.CreatedAt)
+		if errs != nil {
+			fmt.Print("errs")
+			fmt.Println(errs)
+			return nil, errs
+		}
 	}
 	return &user, nil
 }
