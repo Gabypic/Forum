@@ -23,7 +23,7 @@ func Start() {
 	http.HandleFunc("/register", handleHomePageRegister)
 	http.HandleFunc("/createPost", handleCreatePost)
 	http.HandleFunc("/create_category", handleCreateCategoryPage)
-	http.HandleFunc("/get_category", handleGetCategoryPage)
+	http.HandleFunc("/view_category", handleGetCategoryPage)
 	http.HandleFunc("/update_category", handleUpdateCategoryPage)
 	http.HandleFunc("/delete_category", handleDeleteCategoryPage)
 
