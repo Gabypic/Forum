@@ -22,6 +22,10 @@ func Start() {
 	http.HandleFunc("/home", handleHomePageConnection)
 	http.HandleFunc("/register", handleHomePageRegister)
 	http.HandleFunc("/createPost", handleCreatePost)
+	http.HandleFunc("/create_category", handleCreateCategoryPage)
+	http.HandleFunc("/get_category", handleGetCategoryPage)
+	http.HandleFunc("/update_category", handleUpdateCategoryPage)
+	http.HandleFunc("/delete_category", handleDeleteCategoryPage)
 
 	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
 
