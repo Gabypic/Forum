@@ -10,14 +10,14 @@
 <div class="container">
     <div class="profile-header">
         <div>
-            <h1 id="username">{{Username}}</h1>
+            <h1 id="username">{{.User}}</h1>
             <p id="bio">{{.Bio}}</p>
             <p><a href="mailto:{{.Email}}" id="email">{{.Email}}</a></p>
         </div>
     </div>
     <div class="profile-details">
         <h2>Informations Personnelles</h2>
-        <p><strong>Nom :</strong> <span id="name">{{.User.Username}}</span></p>
+        <p><strong>Nom :</strong> <span id="name">{{.User}}</span></p>
         <p><strong>Date d'inscription :</strong> <span id="join-date">{{.JoinDate}}</span></p>
         <p><strong>Nombre de posts :</strong> <span id="post-count">{{.PostCount}}</span></p>
     </div>

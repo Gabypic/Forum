@@ -26,6 +26,7 @@ func Start() {
 	http.HandleFunc("/view_category", handleGetCategoryPage)
 	http.HandleFunc("/update_category", handleUpdateCategoryPage)
 	http.HandleFunc("/delete_category", handleDeleteCategoryPage)
+	http.HandleFunc("/profil", handleProfilPage)
 
 	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
 
