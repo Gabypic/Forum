@@ -11,48 +11,48 @@ import (
 )
 
 type User struct {
-	ID        string    `json:"id"`
-	Username  string    `json:"username"`
-	Email     string    `json:"email"`
-	Password  string    `json:"password"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        string
+	Username  string
+	Email     string
+	Password  string
+	CreatedAt time.Time
 }
 
 type Category struct {
-	ID          int       `json:"id"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	CreatedBy   string    `json:"created_by"`
-	CreatedAt   time.Time `json:"created_at"`
+	ID          int
+	Name        string
+	Description string
+	CreatedBy   string
+	CreatedAt   time.Time
 }
 
 type Post struct {
-	ID         int       `json:"id"`
-	Title      string    `json:"title"`
-	Content    string    `json:"content"`
-	ImageURL   string    `json:"image_url"`
-	CreatedBy  string    `json:"created_by"`
-	CategoryID int       `json:"category_id"`
-	CreatedAt  time.Time `json:"created_at"`
-	Approved   bool      `json:"approved"`
+	ID         int
+	Title      string
+	Content    string
+	ImageURL   string
+	CreatedBy  string
+	CategoryID int
+	CreatedAt  time.Time
+	Approved   bool
 }
 
 type Comment struct {
-	ID        int       `json:"id"`
-	Content   string    `json:"content"`
-	CreatedBy string    `json:"created_by"`
-	PostID    int       `json:"post_id"`
-	CreatedAt time.Time `json:"created_at"`
-	Approved  bool      `json:"approved"`
+	ID        int
+	Content   string
+	CreatedBy string
+	PostID    int
+	CreatedAt time.Time
+	Approved  bool
 }
 
 type Reaction struct {
-	ID        int       `json:"id"`
-	Type      string    `json:"type"`
-	CreatedBy string    `json:"created_by"`
-	PostID    *int      `json:"post_id"`
-	CommentID *int      `json:"comment_id"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        int
+	Type      string
+	CreatedBy string
+	PostID    *int
+	CommentID *int
+	CreatedAt time.Time
 }
 
 func Password(password string) (string, error) {
