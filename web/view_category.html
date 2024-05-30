@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Voir la catégorie</title>
+</head>
+<body>
+    <h1>{{.Category.Name}}</h1>
+    <p>{{.Category.Description}}</p>
+    <p>Créé par : {{.Category.CreatedBy}}</p>
+    <p>Date de création : {{.Category.CreatedAt}}</p>
+
+    <form action="/update_category" method="GET">
+        <button>Modifier la catégorie</button>
+    </form>
+    <form action="/delete_category" method="POST">
+        <input type="hidden" name="id" value="{{.Category.ID}}">
+        <button type="submit">Supprimer la catégorie</button>
+    </form>
+    <form action="/home" method="GET">
+        <button>Retour à l'accueil</button>
+    </form>
+</body>
+</html>

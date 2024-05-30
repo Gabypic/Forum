@@ -23,6 +23,17 @@
     <form action="/createPost" method="GET">
         <button class="createBtn" type="submit">Créer un post</button>
     </form>
+    <form action="/create_category" method="GET">
+        <button class="createBtn" type="submit">Créer une catégorie</button>
+    </form>
+</div>
+
+<div class="categories">
+    {{range .Categories}}
+    <div class="category">
+        <a href="/view_category?id={{.ID}}">{{.Name}}</a>
+    </div>
+    {{end}}
 </div>
 
 </body>
