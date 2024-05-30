@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Utilisateur - Forum</title>
+    <link rel="stylesheet" href="/static/profil.css">
+</head>
+<body>
+<div class="container">
+    <div class="profile-header">
+        <!--<img id="profile-picture" src="{{.ProfilePicture}}" alt="Photo de Profil">!-->
+        <div>
+            <h1 id="username">{{.Username}}</h1>
+            <p id="bio">{{.Bio}}</p>
+            <p><a href="mailto:{{.Email}}" id="email">{{.Email}}</a></p>
+        </div>
+    </div>
+    <div class="profile-details">
+        <h2>Informations Personnelles</h2>
+        <p><strong>Nom :</strong> <span id="name">{{.Name}}</span></p>
+        <p><strong>Date d'inscription :</strong> <span id="join-date">{{.JoinDate}}</span></p>
+        <p><strong>Nombre de posts :</strong> <span id="post-count">{{.PostCount}}</span></p>
+    </div>
+    <div class="posts">
+        <h2>Posts Récents</h2>
+        <div id="posts-container">
+            {{range .Posts}}
+            <div class="post">
+                <h3>{{.Title}}</h3>
+                <p>{{.Content}}</p>
+            </div>
+            {{end}}
+        </div>
+    </div>
+</div>
+</body>
+</html>
