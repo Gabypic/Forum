@@ -75,10 +75,6 @@ func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func LoginUserHandler(w http.ResponseWriter, r *http.Request) {
-	//if r.Method != http.MethodPost {
-	//	http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
-	//	return
-	//}
 
 	email := r.FormValue("email")
 	password := r.FormValue("password")

@@ -128,3 +128,45 @@ func DeleteUser(id string) error {
 	}
 	return err
 }
+
+func CreateCategory(category *Category) error {
+	category.CreatedAt = time.Now()
+
+	query := `INSERT INTO categories (name, description, created_by, created_at) VALUES (?, ?, ?, ?)`
+	_, err := DB.Exec(query, category.Name, category.Description, category.CreatedBy, category.CreatedAt)
+	if err != nil {
+		log.Printf("Error creating category: %v", err)
+	}
+	return err
+}
+
+func GetCategory(id int) (*Category, error) {
+	var category Category
+	query := `SELECT id, name, description, created_by, created_at FROM categories WHERE id = ?`
+	err := DB.QueryRow(query, id).Scan(&category.ID, &category.Name, &category.Description, &category.CreatedBy, &category.CreatedAt)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		log.Printf("Error retrieving category: %v", err)
+	}
+	return &category, err
+}
+
+func UpdateCategory(category *Category) error {
+	query := `UPDATE categories SET name = ?, description = ?, created_by = ? WHERE id = ?`
+	_, err := DB.Exec(query, category.Name, category.Description, category.CreatedBy, category.ID)
+	if err != nil {
+		log.Printf("Error updating category: %v", err)
+	}
+	return err
+}
+
+func DeleteCategory(id int) error {
+	query := `DELETE FROM categories WHERE id = ?`
+	_, err := DB.Exec(query, id)
+	if err != nil {
+		log.Printf("Error deleting category: %v", err)
+	}
+	return err
+}
