@@ -49,6 +49,25 @@ func handleCreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func handleProfilPage(w http.ResponseWriter, r *http.Request) {
+	//user := application.User{
+	//	Username: r.FormValue("username"),
+	//	Email:    r.FormValue("email"),
+	//	Password: r.FormValue("password"),
+	//}
+	if r.Method == http.MethodGet {
+		if r.Method == http.MethodGet {
+			data := map[string]interface{}{
+				"User":     "yo",
+				"Bio":      "Your bio here",
+				"JoinDate": "yoyoyo",
+			}
+			renderTemplate(w, "profil", data)
+			return
+		}
+	}
+}
+
 func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
@@ -71,7 +90,6 @@ func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to register user", http.StatusInternalServerError)
 		return
 	}
-
 	renderTemplate(w, "home", nil)
 }
 
@@ -96,6 +114,8 @@ func LoginUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Println("3")
+	fmt.Print("yoyoyo")
+	fmt.Println(user)
 	renderTemplate(w, "home", nil)
 }
 
