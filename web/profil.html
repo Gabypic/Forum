@@ -12,13 +12,14 @@
         <div>
             <h1 id="username">{{.User}}</h1>
 
-            <p id="bio">{{.Bio}}</p>
+            <!--<p id="Mail">{{.Bio}}</p>!-->
             <p><a href="mailto:{{.Email}}" id="email">{{.Email}}</a></p>
         </div>
     </div>
     <div class="profile-details">
         <h2>Informations Personnelles</h2>
         <p><strong>Nom :</strong> <span id="name">{{.User}}</span></p>
+        <p><strong>Mail :</strong> <span id="mail">{{.Mail}}</span></p>
         <p><strong>Date d'inscription :</strong> <span id="join-date">{{.JoinDate}}</span></p>
         <p><strong>Nombre de posts :</strong> <span id="post-count">{{.PostCount}}</span></p>
     </div>

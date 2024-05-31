@@ -108,6 +108,32 @@ func GetUser(email string) (*User, error) {
 	return &user, nil
 }
 
+func GetUserByName(name string) (*User, error) {
+	var user User
+	query := `SELECT id, username, email, password, created_at FROM users WHERE username = ?`
+	value, err := DB.Query(query, name)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			fmt.Println("err")
+			log.Printf("Error login user: %v", err)
+			return nil, err
+		}
+		log.Printf("Error login user: %v", err)
+		return nil, err
+	}
+	defer value.Close()
+
+	if value.Next() {
+		errs := value.Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.CreatedAt)
+		if errs != nil {
+			fmt.Print("errs")
+			fmt.Println(errs)
+			return nil, errs
+		}
+	}
+	return &user, nil
+}
+
 func UpdateUser(user *User) error {
 	hashedPassword, err := Password(user.Password)
 	if err != nil {

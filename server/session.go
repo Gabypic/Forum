@@ -8,8 +8,10 @@ import (
 )
 
 type Session struct {
-	ID        string
+	Id        string
+	Mail      string
 	Username  string
+	joinDate  time.Time
 	ExpiresAt time.Time
 }
 
@@ -17,9 +19,12 @@ var sessions = map[string]*Session{}
 
 func CreateSession(username string) *Session {
 	sessionID := application.GenerateUUID()
+	userDatas, _ := application.GetUserByName(username)
 	session := &Session{
-		ID:        sessionID,
+		Id:        sessionID,
+		Mail:      userDatas.Email,
 		Username:  username,
+		joinDate:  userDatas.CreatedAt,
 		ExpiresAt: time.Now().Add(24 * time.Hour),
 	}
 	sessions[sessionID] = session

@@ -50,17 +50,15 @@ func handleCreatePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleProfilPage(w http.ResponseWriter, r *http.Request) {
-	//user := application.User{
-	//	Username: r.FormValue("username"),
-	//	Email:    r.FormValue("email"),
-	//	Password: r.FormValue("password"),
-	//}
+	user, _ := GetSessionCookie(r)
+	userDatas, _ := GetSession(user)
+	fmt.Println(user)
 	if r.Method == http.MethodGet {
 		if r.Method == http.MethodGet {
 			data := map[string]interface{}{
-				"User":     "yo",
-				"Bio":      "Your bio here",
-				"JoinDate": "yoyoyo",
+				"User":     userDatas.Username,
+				"Mail":     userDatas.Mail,
+				"JoinDate": userDatas.joinDate,
 			}
 			renderTemplate(w, "profil", data)
 			return
@@ -83,7 +81,7 @@ func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
 	user.ID = application.GenerateUUID()
 
 	session := CreateSession(user.Username)
-	SetSessionCookie(w, session.ID)
+	SetSessionCookie(w, session.Id)
 
 	err := application.CreateUser(&user)
 	if err != nil {
@@ -106,7 +104,7 @@ func LoginUserHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(user.Username)
 	session := CreateSession(user.Username)
-	SetSessionCookie(w, session.ID)
+	SetSessionCookie(w, session.Id)
 
 	if !application.CheckPassword(password, user.Password) {
 		fmt.Println("2")
