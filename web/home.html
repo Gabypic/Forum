@@ -20,7 +20,7 @@
 </header>
 
 <div class="create">
-    <form action="/createPost" method="GET">
+    <form action="/create_post" method="GET">
         <button class="createBtn" type="submit">Créer un post</button>
     </form>
     <form action="/create_category" method="GET">
@@ -34,6 +34,17 @@
         <a href="/view_category?id={{.ID}}">{{.Name}}</a>
     </div>
     {{end}}
+</div>
+
+<div class="posts">
+    <h2>Posts Récents</h2>
+    <ul>
+        {{range .Posts}}
+        <li>
+            <a href="/view_post?id={{.ID}}">{{.Title}}</a>
+        </li>
+        {{end}}
+    </ul>
 </div>
 
 </body>

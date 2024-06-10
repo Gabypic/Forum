@@ -200,3 +200,45 @@ func DeleteCategory(id int) error {
 	}
 	return err
 }
+
+func CreatePost(post *Post) error {
+	post.CreatedAt = time.Now()
+
+	query := `INSERT INTO posts (title, content, image_url, created_by, category_id, created_at, approved) VALUES (?, ?, ?, ?, ?, ?, ?)`
+	_, err := DB.Exec(query, post.Title, post.Content, post.ImageURL, post.CreatedBy, post.CategoryID, post.CreatedAt, post.Approved)
+	if err != nil {
+		log.Printf("Error creating post: %v", err)
+	}
+	return err
+}
+
+func GetPost(id int) (*Post, error) {
+	var post Post
+	query := `SELECT id, title, content, image_url, created_by, category_id, created_at, approved FROM posts WHERE id = ?`
+	err := DB.QueryRow(query, id).Scan(&post.ID, &post.Title, &post.Content, &post.ImageURL, &post.CreatedBy, &post.CategoryID, &post.CreatedAt, &post.Approved)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		log.Printf("Error retrieving post: %v", err)
+	}
+	return &post, err
+}
+
+func UpdatePost(post *Post) error {
+	query := `UPDATE posts SET title = ?, content = ?, image_url = ?, created_by = ?, category_id = ?, approved = ? WHERE id = ?`
+	_, err := DB.Exec(query, post.Title, post.Content, post.ImageURL, post.CreatedBy, post.CategoryID, post.Approved, post.ID)
+	if err != nil {
+		log.Printf("Error updating post: %v", err)
+	}
+	return err
+}
+
+func DeletePost(id int) error {
+	query := `DELETE FROM posts WHERE id = ?`
+	_, err := DB.Exec(query, id)
+	if err != nil {
+		log.Printf("Error deleting post: %v", err)
+	}
+	return err
+}

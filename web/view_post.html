@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Post</title>
+</head>
+<body>
+    <h1>{{.Post.Title}}</h1>
+    <p>{{.Post.Content}}</p>
+    <img src="{{.Post.ImageURL}}" alt="Post Image">
+    <p>Category ID: {{.Post.CategoryID}}</p>
+    <p>Approved: {{if .Post.Approved}}Yes{{else}}No{{end}}</p>
+    <br>
+    <a href="/update_post?id={{.Post.ID}}">Edit Post</a>
+    <form action="/delete_post" method="post" style="display:inline;">
+        <input type="hidden" name="id" value="{{.Post.ID}}">
+        <button type="submit">Delete Post</button>
+    </form>
+    <br>
+    <a href="/home">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Post</title>
+</head>
+<body>
+    <h1>Are you sure you want to delete this post?</h1>
+    <h2>{{.Post.Title}}</h2>
+    <p>{{.Post.Content}}</p>
+    <form action="/delete_post" method="post">
+        <input type="hidden" name="id" value="{{.Post.ID}}">
+        <button type="submit">Yes, Delete</button>
+    </form>
+    <br>
+    <a href="/home">Cancel</a>
+</body>
+</html>

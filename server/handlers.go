@@ -42,13 +42,6 @@ func handleHomePageRegister(w http.ResponseWriter, r *http.Request) {
 	RegisterUserHandler(w, r)
 }
 
-func handleCreatePost(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		renderTemplate(w, "createPost", nil)
-		return
-	}
-}
-
 func handleProfilPage(w http.ResponseWriter, r *http.Request) {
 	user, _ := GetSessionCookie(r)
 	userDatas, _ := GetSession(user)
@@ -244,4 +237,155 @@ func DeleteCategoryHandler(w http.ResponseWriter, r *http.Request, id int) {
 	}
 
 	renderTemplate(w, "home", nil)
+}
+
+func handleCreatePostPage(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		renderTemplate(w, "create_post", nil)
+		return
+	}
+	CreatePostHandler(w, r)
+}
+
+func handleGetPostPage(w http.ResponseWriter, r *http.Request) {
+	request := r.URL.Query().Get("id")
+	id, err := strconv.Atoi(request)
+	if err != nil {
+		http.Error(w, "Invalid post ID", http.StatusBadRequest)
+		return
+	}
+	post, err := application.GetPost(id)
+	if err != nil || post == nil {
+		http.Error(w, "Post not found", http.StatusNotFound)
+		return
+	}
+	data := map[string]interface{}{
+		"Post": post,
+	}
+	renderTemplate(w, "view_post", data)
+}
+
+func handleUpdatePostPage(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		request := r.URL.Query().Get("id")
+		id, err := strconv.Atoi(request)
+		if err != nil {
+			http.Error(w, "Invalid post ID", http.StatusBadRequest)
+			return
+		}
+		post, err := application.GetPost(id)
+		if err != nil || post == nil {
+			http.Error(w, "Post not found", http.StatusNotFound)
+			return
+		}
+		data := map[string]interface{}{
+			"Post": post,
+		}
+		renderTemplate(w, "update_post", data)
+		return
+	}
+	UpdatePostHandler(w, r)
+}
+
+func handleDeletePostPage(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		request := r.FormValue("id")
+		id, err := strconv.Atoi(request)
+		if err != nil {
+			http.Error(w, "Invalid post ID", http.StatusBadRequest)
+			return
+		}
+		DeletePostHandler(w, r, id)
+	}
+}
+
+func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	post := application.Post{
+		Title:      r.FormValue("title"),
+		Content:    r.FormValue("content"),
+		ImageURL:   r.FormValue("image_url"),
+		CreatedBy:  r.FormValue("created_by"),
+		CategoryID: atoi(r.FormValue("category_id")),
+		Approved:   r.FormValue("approved") == "true",
+	}
+
+	err := application.CreatePost(&post)
+	if err != nil {
+		http.Error(w, "Failed to create post", http.StatusInternalServerError)
+		return
+	}
+
+	renderTemplate(w, "home", nil)
+}
+
+func GetPostHandler(w http.ResponseWriter, r *http.Request) {
+	request := r.URL.Query().Get("id")
+	id, err := strconv.Atoi(request)
+	if err != nil {
+		http.Error(w, "Invalid post ID", http.StatusBadRequest)
+		return
+	}
+
+	post, err := application.GetPost(id)
+	if err != nil {
+		http.Error(w, "Failed to get post", http.StatusInternalServerError)
+		return
+	}
+
+	renderTemplate(w, "post", map[string]interface{}{"Post": post})
+}
+
+func UpdatePostHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	request := r.FormValue("id")
+	id, err := strconv.Atoi(request)
+	if err != nil {
+		http.Error(w, "Invalid post ID", http.StatusBadRequest)
+		return
+	}
+
+	post := application.Post{
+		ID:         id,
+		Title:      r.FormValue("title"),
+		Content:    r.FormValue("content"),
+		ImageURL:   r.FormValue("image_url"),
+		CreatedBy:  r.FormValue("created_by"),
+		CategoryID: atoi(r.FormValue("category_id")),
+		Approved:   r.FormValue("approved") == "true",
+	}
+
+	err = application.UpdatePost(&post)
+	if err != nil {
+		http.Error(w, "Failed to update post", http.StatusInternalServerError)
+		return
+	}
+
+	renderTemplate(w, "home", nil)
+}
+
+func DeletePostHandler(w http.ResponseWriter, r *http.Request, id int) {
+	err := application.DeletePost(id)
+	if err != nil {
+		http.Error(w, "Failed to delete post", http.StatusInternalServerError)
+		return
+	}
+
+	renderTemplate(w, "home", nil)
+}
+
+func atoi(s string) int {
+	value, err := strconv.Atoi(s)
+	if err != nil {
+		return 0
+	}
+	return value
 }
