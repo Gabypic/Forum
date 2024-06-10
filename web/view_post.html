@@ -11,12 +11,14 @@
     <p>Category ID: {{.Post.CategoryID}}</p>
     <p>Approved: {{if .Post.Approved}}Yes{{else}}No{{end}}</p>
     <br>
+    {{if .ShowEditDeleteButtons}}
     <a href="/update_post?id={{.Post.ID}}">Edit Post</a>
     <form action="/delete_post" method="post" style="display:inline;">
         <input type="hidden" name="id" value="{{.Post.ID}}">
         <button type="submit">Delete Post</button>
     </form>
     <br>
+    {{end}}
     <a href="/home">Back to Home</a>
 </body>
 </html>

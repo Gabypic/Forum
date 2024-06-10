@@ -13,6 +13,8 @@ type Session struct {
 	Username  string
 	joinDate  time.Time
 	ExpiresAt time.Time
+	Modo      bool
+	Admin     bool
 }
 
 var sessions = map[string]*Session{}
@@ -25,6 +27,8 @@ func CreateSession(username string) *Session {
 		Mail:      userDatas.Email,
 		Username:  username,
 		joinDate:  userDatas.CreatedAt,
+		Modo:      userDatas.Modo,
+		Admin:     userDatas.Admin,
 		ExpiresAt: time.Now().Add(24 * time.Hour),
 	}
 	sessions[sessionID] = session

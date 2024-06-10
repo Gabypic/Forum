@@ -296,6 +296,14 @@ func handleCreatePostPage(w http.ResponseWriter, r *http.Request) {
 
 func handleGetPostPage(w http.ResponseWriter, r *http.Request) {
 	request := r.URL.Query().Get("id")
+	userTest, _ := GetSessionCookie(r)
+	userDatas, _ := GetSession(userTest)
+	var authorButtons bool
+	if userDatas.Admin == true || userDatas.Modo == true {
+		authorButtons = true
+	} else {
+		authorButtons = false
+	}
 	id, err := strconv.Atoi(request)
 	if err != nil {
 		http.Error(w, "Invalid post ID", http.StatusBadRequest)
@@ -307,7 +315,8 @@ func handleGetPostPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	data := map[string]interface{}{
-		"Post": post,
+		"Post":                  post,
+		"ShowEditDeleteButtons": authorButtons,
 	}
 	renderTemplate(w, "view_post", data)
 }

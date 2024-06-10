@@ -25,12 +25,14 @@ func Connect(databaseURL string) {
 
 func SqlTable() {
 	query := `
-    CREATE TABLE IF NOT EXISTS users (
+    CREATE TABLE IF NOT EXISTS users(
         id TEXT PRIMARY KEY,
         username TEXT NOT NULL UNIQUE,
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        admin BOOLEAN NOT NULL,
+        modo BOOLEAN NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS categories (
