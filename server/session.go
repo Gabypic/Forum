@@ -28,11 +28,13 @@ func CreateSession(username string) *Session {
 		ExpiresAt: time.Now().Add(24 * time.Hour),
 	}
 	sessions[sessionID] = session
+	fmt.Println("error session")
 	fmt.Println(sessions)
 	return session
 }
 
 func GetSession(sessionID string) (*Session, error) {
+	fmt.Println(sessions)
 	session, exists := sessions[sessionID]
 	if !exists || session.ExpiresAt.Before(time.Now()) {
 		return nil, errors.New("session not found or expired")

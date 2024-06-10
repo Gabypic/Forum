@@ -36,6 +36,31 @@ func handleLoginPage(w http.ResponseWriter, r *http.Request) {
 
 func handleHomePage(w http.ResponseWriter, r *http.Request) {
 	categories, err := application.GetAllCategories()
+	userTest, _ := GetSessionCookie(r)
+	userDatas, _ := GetSession(userTest)
+	if userDatas == nil {
+		email := r.FormValue("email")
+		password := r.FormValue("password")
+
+		user, err := application.GetUser(email)
+		if err != nil || user == nil {
+			fmt.Println("1")
+			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
+			return
+		}
+		fmt.Println(user.Username)
+		session := CreateSession(user.Username)
+		SetSessionCookie(w, session.Id)
+
+		if !application.CheckPassword(password, user.Password) {
+			fmt.Println("2")
+			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
+			return
+		}
+		fmt.Println("3")
+		fmt.Print("yoyoyo")
+		fmt.Println(user)
+	}
 	if err != nil {
 		http.Error(w, "Failed to load categories", http.StatusInternalServerError)
 		return
