@@ -1,6 +1,5 @@
 package server
 
-// http://localhost:8080/login
 import (
 	"Forum/application"
 	"log"
@@ -8,18 +7,15 @@ import (
 )
 
 func Start() {
-
 	cfg := application.LoadConfig()
-
 	application.Connect(cfg.DatabaseURL)
-
 	application.SqlTable()
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	http.HandleFunc("/login", handleLoginPage)
 	http.HandleFunc("/create_account", handleRegisterPage)
-	http.HandleFunc("/home", handleHomePageConnection)
+	http.HandleFunc("/home", handleHomePage)
 	http.HandleFunc("/register", handleHomePageRegister)
 	http.HandleFunc("/create_category", handleCreateCategoryPage)
 	http.HandleFunc("/view_category", handleGetCategoryPage)

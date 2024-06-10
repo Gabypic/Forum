@@ -34,8 +34,26 @@ func handleLoginPage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func handleHomePageConnection(w http.ResponseWriter, r *http.Request) {
+func handleHomePage(w http.ResponseWriter, r *http.Request) {
 	LoginUserHandler(w, r)
+	categories, err := application.GetAllCategories()
+	if err != nil {
+		http.Error(w, "Failed to load categories", http.StatusInternalServerError)
+		return
+	}
+
+	posts, err := application.GetRecentPosts()
+	if err != nil {
+		http.Error(w, "Failed to load posts", http.StatusInternalServerError)
+		return
+	}
+
+	data := map[string]interface{}{
+		"Categories": categories,
+		"Posts":      posts,
+	}
+
+	renderTemplate(w, "home", data)
 }
 
 func handleHomePageRegister(w http.ResponseWriter, r *http.Request) {
@@ -320,7 +338,7 @@ func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	renderTemplate(w, "home", nil)
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }
 
 func GetPostHandler(w http.ResponseWriter, r *http.Request) {

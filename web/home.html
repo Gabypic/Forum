@@ -42,6 +42,7 @@
         {{range .Posts}}
         <li>
             <a href="/view_post?id={{.ID}}">{{.Title}}</a>
+            <p>{{.Content}}</p>
         </li>
         {{end}}
     </ul>
