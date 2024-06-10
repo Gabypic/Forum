@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Category</title>
+</head>
+<body>
+    <h1>Are you sure you want to delete this category?</h1>
+    <h2>{{.Category.Name}}</h2>
+    <p>{{.Category.Description}}</p>
+    <form action="/delete_category" method="post">
+        <input type="hidden" name="id" value="{{.Category.ID}}">
+        <button type="submit">Yes, Delete</button>
+    </form>
+    <br>
+    <a href="/home">Cancel</a>
+</body>
+</html>

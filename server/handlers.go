@@ -35,7 +35,6 @@ func handleLoginPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleHomePage(w http.ResponseWriter, r *http.Request) {
-	LoginUserHandler(w, r)
 	categories, err := application.GetAllCategories()
 	if err != nil {
 		http.Error(w, "Failed to load categories", http.StatusInternalServerError)
@@ -164,20 +163,25 @@ func handleUpdateCategoryPage(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Category not found", http.StatusNotFound)
 			return
 		}
-		renderTemplate(w, "update_category", map[string]interface{}{"Category": category})
+		data := map[string]interface{}{
+			"Category": category,
+		}
+		renderTemplate(w, "update_category", data)
 		return
 	}
 	UpdateCategoryHandler(w, r)
 }
 
 func handleDeleteCategoryPage(w http.ResponseWriter, r *http.Request) {
-	request := r.URL.Query().Get("id")
-	id, err := strconv.Atoi(request)
-	if err != nil {
-		http.Error(w, "Invalid category ID", http.StatusBadRequest)
-		return
+	if r.Method == http.MethodPost {
+		request := r.FormValue("id")
+		id, err := strconv.Atoi(request)
+		if err != nil {
+			http.Error(w, "Invalid category ID", http.StatusBadRequest)
+			return
+		}
+		DeleteCategoryHandler(w, r, id)
 	}
-	DeleteCategoryHandler(w, r, id)
 }
 
 func CreateCategoryHandler(w http.ResponseWriter, r *http.Request) {
@@ -198,7 +202,7 @@ func CreateCategoryHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	renderTemplate(w, "home", nil)
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }
 
 func GetCategoryHandler(w http.ResponseWriter, r *http.Request) {
@@ -244,7 +248,7 @@ func UpdateCategoryHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	renderTemplate(w, "home", nil)
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }
 
 func DeleteCategoryHandler(w http.ResponseWriter, r *http.Request, id int) {
@@ -254,7 +258,7 @@ func DeleteCategoryHandler(w http.ResponseWriter, r *http.Request, id int) {
 		return
 	}
 
-	renderTemplate(w, "home", nil)
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }
 
 func handleCreatePostPage(w http.ResponseWriter, r *http.Request) {
@@ -387,7 +391,7 @@ func UpdatePostHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	renderTemplate(w, "home", nil)
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }
 
 func DeletePostHandler(w http.ResponseWriter, r *http.Request, id int) {
@@ -397,7 +401,7 @@ func DeletePostHandler(w http.ResponseWriter, r *http.Request, id int) {
 		return
 	}
 
-	renderTemplate(w, "home", nil)
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }
 
 func atoi(s string) int {

@@ -5,21 +5,20 @@
     <title>Créer une catégorie</title>
 </head>
 <body>
-    <h1>Créer une nouvelle catégorie</h1>
-    <form action="/create_category" method="POST">
+    <h1>Créer une catégorie</h1>
+    <form action="/create_category" method="post">
         <label for="name">Nom de la catégorie :</label>
-        <input type="text" id="name" name="name" required><br><br>
-
+        <input type="text" id="name" name="name" required>
+        <br>
         <label for="description">Description :</label>
-        <textarea id="description" name="description"></textarea><br><br>
-
+        <textarea id="description" name="description" required></textarea>
+        <br>
         <label for="created_by">Créé par :</label>
-        <input type="text" id="created_by" name="created_by" required><br><br>
-
+        <input type="text" id="created_by" name="created_by" required>
+        <br>
         <button type="submit">Créer</button>
     </form>
-    <form action="/home" method="GET">
-        <button>Retour à l'accueil</button>
-    </form>
+    <br>
+    <a href="/home">Retour à l'accueil</a>
 </body>
 </html>

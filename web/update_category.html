@@ -6,21 +6,20 @@
 </head>
 <body>
     <h1>Mettre à jour la catégorie</h1>
-    <form action="/update_category" method="POST">
+    <form action="/update_category" method="post">
         <input type="hidden" name="id" value="{{.Category.ID}}">
         <label for="name">Nom de la catégorie :</label>
-        <input type="text" id="name" name="name" value="{{.Category.Name}}" required><br><br>
-
+        <input type="text" id="name" name="name" value="{{.Category.Name}}" required>
+        <br>
         <label for="description">Description :</label>
-        <textarea id="description" name="description" required>{{.Category.Description}}</textarea><br><br>
-
+        <textarea id="description" name="description" required>{{.Category.Description}}</textarea>
+        <br>
         <label for="created_by">Créé par :</label>
-        <input type="text" id="created_by" name="created_by" value="{{.Category.CreatedBy}}" required><br><br>
-
+        <input type="text" id="created_by" name="created_by" value="{{.Category.CreatedBy}}" required>
+        <br>
         <button type="submit">Mettre à jour</button>
     </form>
-    <form action="/home" method="GET">
-        <button>Retour à l'accueil</button>
-    </form>
+    <br>
+    <a href="/home">Retour à l'accueil</a>
 </body>
 </html>
