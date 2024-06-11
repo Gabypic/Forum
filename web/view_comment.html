@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Comment</title>
+</head>
+<body>
+    <h1>Comment</h1>
+    <p>{{.Comment.Content}}</p>
+    <p>Post ID: {{.Comment.PostID}}</p>
+    <p>Approved: {{if .Comment.Approved}}Yes{{else}}No{{end}}</p>
+    <br>
+    {{if .ShowEditDeleteButtons}}
+    <a href="/update_comment?id={{.Comment.ID}}">Edit Comment</a>
+    <form action="/delete_comment" method="post" style="display:inline;">
+        <input type="hidden" name="id" value="{{.Comment.ID}}">
+        <button type="submit">Delete Comment</button>
+    </form>
+    <br>
+    {{end}}
+    <a href="/home">Back to Home</a>
+</body>
+</html>

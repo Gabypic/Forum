@@ -48,5 +48,19 @@
     </ul>
 </div>
 
+<div class="comments">
+    <h2>Commentaires Récents</h2>
+    <ul>
+        {{range .Comments}}
+        <li>
+            <p>{{.Content}} - par {{.CreatedBy}}</p>
+        </li>
+        {{end}}
+    </ul>
+    <form action="/create_comment" method="GET">
+        <button type="submit">Ajouter un commentaire</button>
+    </form>
+</div>
+
 </body>
 </html>

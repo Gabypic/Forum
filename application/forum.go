@@ -245,6 +245,48 @@ func DeletePost(id int) error {
 	return err
 }
 
+func CreateComment(comment *Comment) error {
+	comment.CreatedAt = time.Now()
+
+	query := `INSERT INTO comments (content, created_by, post_id, created_at, approved) VALUES (?, ?, ?, ?, ?)`
+	_, err := DB.Exec(query, comment.Content, comment.CreatedBy, comment.PostID, comment.CreatedAt, comment.Approved)
+	if err != nil {
+		log.Printf("Error creating comment: %v", err)
+	}
+	return err
+}
+
+func GetComment(id int) (*Comment, error) {
+	var comment Comment
+	query := `SELECT id, content, created_by, post_id, created_at, approved FROM comments WHERE id = ?`
+	err := DB.QueryRow(query, id).Scan(&comment.ID, &comment.Content, &comment.CreatedBy, &comment.PostID, &comment.CreatedAt, &comment.Approved)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		log.Printf("Error retrieving comment: %v", err)
+	}
+	return &comment, err
+}
+
+func UpdateComment(comment *Comment) error {
+	query := `UPDATE comments SET content = ?, created_by = ?, post_id = ?, approved = ? WHERE id = ?`
+	_, err := DB.Exec(query, comment.Content, comment.CreatedBy, comment.PostID, comment.Approved, comment.ID)
+	if err != nil {
+		log.Printf("Error updating comment: %v", err)
+	}
+	return err
+}
+
+func DeleteComment(id int) error {
+	query := `DELETE FROM comments WHERE id = ?`
+	_, err := DB.Exec(query, id)
+	if err != nil {
+		log.Printf("Error deleting comment: %v", err)
+	}
+	return err
+}
+
 func GetAllCategories() ([]Category, error) {
 	rows, err := DB.Query("SELECT id, name, description, created_by, created_at FROM categories")
 	if err != nil {
@@ -281,4 +323,23 @@ func GetRecentPosts() ([]Post, error) {
 	}
 
 	return posts, nil
+}
+
+func GetAllComments() ([]Comment, error) {
+	rows, err := DB.Query("SELECT id, content, created_by, post_id, created_at, approved FROM comments")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var comments []Comment
+	for rows.Next() {
+		var comment Comment
+		if err := rows.Scan(&comment.ID, &comment.Content, &comment.CreatedBy, &comment.PostID, &comment.CreatedAt, &comment.Approved); err != nil {
+			return nil, err
+		}
+		comments = append(comments, comment)
+	}
+
+	return comments, nil
 }

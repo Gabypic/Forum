@@ -36,6 +36,12 @@ func handleLoginPage(w http.ResponseWriter, r *http.Request) {
 
 func handleHomePage(w http.ResponseWriter, r *http.Request) {
 	categories, err := application.GetAllCategories()
+	if err != nil {
+		log.Printf("Error loading categories: %v", err)
+		http.Error(w, "Failed to load categories", http.StatusInternalServerError)
+		return
+	}
+	log.Printf("Loaded categories: %v", categories)
 	userTest, _ := GetSessionCookie(r)
 	userDatas, _ := GetSession(userTest)
 	if userDatas == nil {
@@ -45,6 +51,7 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 		user, err := application.GetUser(email)
 		if err != nil || user == nil {
 			fmt.Println("1")
+			log.Printf("Error getting user: %v", err)
 			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 			return
 		}
@@ -54,6 +61,7 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 
 		if !application.CheckPassword(password, user.Password) {
 			fmt.Println("2")
+			log.Println("Password does not match")
 			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 			return
 		}
@@ -72,9 +80,17 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	comments, err := application.GetAllComments()
+	if err != nil {
+		log.Printf("Error loading comments: %v", err)
+		http.Error(w, "Failed to load comments", http.StatusInternalServerError)
+		return
+	}
+
 	data := map[string]interface{}{
 		"Categories": categories,
 		"Posts":      posts,
+		"Comments":   comments,
 	}
 
 	renderTemplate(w, "home", data)
@@ -432,6 +448,160 @@ func DeletePostHandler(w http.ResponseWriter, r *http.Request, id int) {
 	err := application.DeletePost(id)
 	if err != nil {
 		http.Error(w, "Failed to delete post", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
+}
+
+func handleCreateCommentPage(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		renderTemplate(w, "create_comment", nil)
+		return
+	}
+	CreateCommentHandler(w, r)
+}
+
+func handleGetCommentPage(w http.ResponseWriter, r *http.Request) {
+	request := r.URL.Query().Get("id")
+	userTest, _ := GetSessionCookie(r)
+	userDatas, _ := GetSession(userTest)
+	var authorButtons bool
+	if userDatas.Admin == true || userDatas.Modo == true {
+		authorButtons = true
+	} else {
+		authorButtons = false
+	}
+	id, err := strconv.Atoi(request)
+	if err != nil {
+		http.Error(w, "Invalid comment ID", http.StatusBadRequest)
+		return
+	}
+	comment, err := application.GetComment(id)
+	if err != nil || comment == nil {
+		http.Error(w, "Comment not found", http.StatusNotFound)
+		return
+	}
+	data := map[string]interface{}{
+		"Comment":               comment,
+		"ShowEditDeleteButtons": authorButtons,
+	}
+	renderTemplate(w, "view_comment", data)
+}
+
+func handleUpdateCommentPage(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		request := r.URL.Query().Get("id")
+		id, err := strconv.Atoi(request)
+		if err != nil {
+			http.Error(w, "Invalid comment ID", http.StatusBadRequest)
+			return
+		}
+		comment, err := application.GetComment(id)
+		if err != nil || comment == nil {
+			http.Error(w, "Comment not found", http.StatusNotFound)
+			return
+		}
+		data := map[string]interface{}{
+			"Comment": comment,
+		}
+		renderTemplate(w, "update_comment", data)
+		return
+	}
+	UpdateCommentHandler(w, r)
+}
+
+func handleDeleteCommentPage(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		request := r.FormValue("id")
+		id, err := strconv.Atoi(request)
+		if err != nil {
+			http.Error(w, "Invalid comment ID", http.StatusBadRequest)
+			return
+		}
+		DeleteCommentHandler(w, r, id)
+	}
+}
+
+func CreateCommentHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	comment := application.Comment{
+		Content:   r.FormValue("content"),
+		CreatedBy: r.FormValue("created_by"),
+		PostID:    atoi(r.FormValue("post_id")),
+		Approved:  r.FormValue("approved") == "true",
+	}
+
+	err := application.CreateComment(&comment)
+	if err != nil {
+		http.Error(w, "Failed to create comment", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
+}
+
+func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
+	request := r.URL.Query().Get("id")
+	id, err := strconv.Atoi(request)
+	if err != nil {
+		http.Error(w, "Invalid comment ID", http.StatusBadRequest)
+		return
+	}
+
+	comment, err := application.GetComment(id)
+	if err != nil {
+		http.Error(w, "Failed to get comment", http.StatusInternalServerError)
+		return
+	}
+
+	renderTemplate(w, "comment", map[string]interface{}{"Comment": comment})
+}
+
+func UpdateCommentHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	request := r.FormValue("id")
+	id, err := strconv.Atoi(request)
+	if err != nil {
+		http.Error(w, "Invalid comment ID", http.StatusBadRequest)
+		return
+	}
+
+	comment := application.Comment{
+		ID:        id,
+		Content:   r.FormValue("content"),
+		CreatedBy: r.FormValue("created_by"),
+		PostID:    atoi(r.FormValue("post_id")),
+		Approved:  r.FormValue("approved") == "true",
+	}
+
+	err = application.UpdateComment(&comment)
+	if err != nil {
+		http.Error(w, "Failed to update comment", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
+}
+
+func DeleteCommentHandler(w http.ResponseWriter, r *http.Request, id int) {
+	comment, err := application.GetComment(id)
+	if err != nil || comment == nil {
+		http.Error(w, "Comment not found", http.StatusNotFound)
+		return
+	}
+
+	err = application.DeleteComment(id)
+	if err != nil {
+		http.Error(w, "Failed to delete comment", http.StatusInternalServerError)
 		return
 	}
 
