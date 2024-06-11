@@ -54,6 +54,14 @@
         {{range .Comments}}
         <li>
             <p>{{.Content}} - par {{.CreatedBy}}</p>
+            <form action="/update_comment" method="GET" style="display:inline;">
+                <input type="hidden" name="id" value="{{.ID}}">
+                <button type="submit">Modifier</button>
+            </form>
+            <form action="/delete_comment" method="POST" style="display:inline;">
+                <input type="hidden" name="id" value="{{.ID}}">
+                <button type="submit">Supprimer</button>
+            </form>
         </li>
         {{end}}
     </ul>
