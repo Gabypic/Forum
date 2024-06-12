@@ -372,6 +372,8 @@ func handleDeletePostPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
+	user, _ := GetSessionCookie(r)
+	userDatas, _ := GetSession(user)
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
@@ -381,7 +383,7 @@ func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 		Title:      r.FormValue("title"),
 		Content:    r.FormValue("content"),
 		ImageURL:   r.FormValue("image_url"),
-		CreatedBy:  r.FormValue("created_by"),
+		CreatedBy:  userDatas.Username,
 		CategoryID: atoi(r.FormValue("category_id")),
 		Approved:   r.FormValue("approved") == "true",
 	}
