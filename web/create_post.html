@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Création de Post</title>
-    <link rel="stylesheet" href="../static/createPost.css">
+    <link href="../static/createPost.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
     <h1>Créer un Post</h1>
-    <form>
+    <form action="/create_post" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Titre</label>
             <input type="text" id="title" name="title" required>
@@ -23,12 +23,12 @@
             <input type="file" id="image" name="image" accept="image/*">
         </div>
         <div class="form-group">
-            <label for="options">Catégories :</label>
-            <select id="options" name="catégories" required>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-                <option value="option4">Option 4</option>
+            <label for="category_id">Catégories :</label>
+            <select id="category_id" name="category_id" required>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+                <option value="4">Option 4</option>
             </select>
         </div>
         <div class="form-group">
