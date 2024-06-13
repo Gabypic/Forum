@@ -29,6 +29,7 @@
 </div>
 
 <div class="categories">
+    <h2>Catégories</h2>
     {{range .Categories}}
     <div class="category">
         <a href="/view_category?id={{.ID}}">{{.Name}}</a>
@@ -43,31 +44,30 @@
         <li>
             <a href="/view_post?id={{.ID}}">{{.Title}}</a>
             <p>{{.Content}}</p>
+            <div class="comments">
+                <ul>
+                    {{range .Comments}}
+                    <li>
+                        <p>{{.Content}} - par {{.CreatedBy}}</p>
+                        <form action="/update_comment" method="GET" style="display:inline;">
+                            <input type="hidden" name="id" value="{{.ID}}">
+                            <button type="submit">Modifier</button>
+                        </form>
+                        <form action="/delete_comment" method="POST" style="display:inline;">
+                            <input type="hidden" name="id" value="{{.ID}}">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </li>
+                    {{end}}
+                </ul>
+                <form action="/create_comment" method="GET" style="display:inline;">
+                    <input type="hidden" name="post_id" value="{{.ID}}">
+                    <button type="submit">Ajouter un commentaire</button>
+                </form>
+            </div>
         </li>
         {{end}}
     </ul>
-</div>
-
-<div class="comments">
-    <h2>Commentaires Récents</h2>
-    <ul>
-        {{range .Comments}}
-        <li>
-            <p>{{.Content}} - par {{.CreatedBy}}</p>
-            <form action="/update_comment" method="GET" style="display:inline;">
-                <input type="hidden" name="id" value="{{.ID}}">
-                <button type="submit">Modifier</button>
-            </form>
-            <form action="/delete_comment" method="POST" style="display:inline;">
-                <input type="hidden" name="id" value="{{.ID}}">
-                <button type="submit">Supprimer</button>
-            </form>
-        </li>
-        {{end}}
-    </ul>
-    <form action="/create_comment" method="GET">
-        <button type="submit">Ajouter un commentaire</button>
-    </form>
 </div>
 
 </body>
