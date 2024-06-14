@@ -1,61 +1,104 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
     margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 20px;
 }
+
 header {
-    width: 97%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #333;
     padding: 10px 20px;
-    background-color: #f8f8f8;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.search-bar {
-    flex-grow: 1;
-    max-width: 50%;
-    margin: 0 auto;
-}
-.search-bar input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-.profile-btn {
-    background-color: #007bff;
     color: white;
+}
+
+header .search-bar input {
+    padding: 5px;
+    border-radius: 4px;
+    border: none;
+}
+
+header form {
+    margin: 0;
+}
+
+header .profile-btn {
+    background-color: #4CAF50;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+header .profile-btn:hover {
+    background-color: #45a049;
+}
+
+.create {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.create .createBtn {
+    background-color: #4CAF50;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
+    color: white;
     cursor: pointer;
-    margin-right: 0.5%;
 }
-.profile-btn:hover {
+
+.create .createBtn:hover {
+    background-color: #45a049;
+}
+
+.categories, .posts, .comments {
+    margin-bottom: 20px;
+}
+
+.categories h2, .posts h2, .comments h2 {
+    margin-bottom: 10px;
+}
+
+.category, .post, .comment {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.category a, .post a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.category a:hover, .post a:hover {
+    text-decoration: underline;
+}
+
+.comment {
+    margin-left: 20px;
+}
+
+.comment-actions {
+    margin-top: 10px;
+}
+
+.comment-actions button {
+    background-color: #007BFF;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.comment-actions button:hover {
     background-color: #0056b3;
 }
-
-.create{
-    margin: 20px 0;
-    display: flex;
-    justify-content: flex-end;
-    width: 99%;
-}
-.create button {
-    background-color: #44C200;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.create button:hover {
-    background-color: #28a745;
-}
-
-
