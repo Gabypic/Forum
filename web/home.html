@@ -24,13 +24,13 @@
         <button class="createBtn" type="submit">Créer un post</button>
     </form>
     <div class="dropdown">
-        <button class="dropbtn">Catégories ▼</button>
+        <button class="dropbtn">Catégories</button>
         <div class="dropdown-content">
             {{range .Categories}}
-            <a href="/view_category?id={{.ID}}">{{.Name}}</a>
+            <a href="/view_category_posts?id={{.ID}}">{{.Name}}</a>
             {{end}}
         </div>
-    </div>
+    </div>    
     <form action="/create_category" method="GET">
         <button class="createBtn" type="submit">Créer une catégorie</button>
     </form>

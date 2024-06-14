@@ -298,7 +298,16 @@ func DeleteCategoryHandler(w http.ResponseWriter, r *http.Request, id int) {
 
 func handleCreatePostPage(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		renderTemplate(w, "create_post", nil)
+		categories, err := application.GetAllCategories()
+		if err != nil {
+			log.Printf("Error loading categories: %v", err)
+			http.Error(w, "Failed to load categories", http.StatusInternalServerError)
+			return
+		}
+		data := map[string]interface{}{
+			"Categories": categories,
+		}
+		renderTemplate(w, "create_post", data)
 		return
 	}
 	CreatePostHandler(w, r)
@@ -616,6 +625,30 @@ func DeleteCommentHandler(w http.ResponseWriter, r *http.Request, id int) {
 	}
 
 	http.Redirect(w, r, "/home", http.StatusSeeOther)
+}
+
+func handleGetCategoryPostsPage(w http.ResponseWriter, r *http.Request) {
+	request := r.URL.Query().Get("id")
+	id, err := strconv.Atoi(request)
+	if err != nil {
+		http.Error(w, "Invalid category ID", http.StatusBadRequest)
+		return
+	}
+	category, err := application.GetCategory(id)
+	if err != nil || category == nil {
+		http.Error(w, "Category not found", http.StatusNotFound)
+		return
+	}
+	posts, err := application.GetPostsByCategoryID(id)
+	if err != nil {
+		http.Error(w, "Failed to load posts", http.StatusInternalServerError)
+		return
+	}
+	data := map[string]interface{}{
+		"Category": category,
+		"Posts":    posts,
+	}
+	renderTemplate(w, "view_category_posts", data)
 }
 
 func atoi(s string) int {

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts de la Catégorie</title>
+    <link href="../static/home.css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="search-bar">
+        <label>
+            <input type="text" placeholder="Recherche...">
+        </label>
+    </div>
+    <form method="GET" action="/profil">
+        <button class="profile-btn">Profil</button>
+    </form>
+</header>
+
+<div class="create">
+    <form action="/create_post" method="GET">
+        <button class="createBtn" type="submit">Créer un post</button>
+    </form>
+    <form action="/create_category" method="GET">
+        <button class="createBtn" type="submit">Créer une catégorie</button>
+    </form>
+</div>
+
+<div class="posts">
+    <h2>Posts dans la Catégorie {{.Category.Name}}</h2>
+    <ul>
+        {{range .Posts}}
+        <li>
+            <a href="/view_post?id={{.ID}}">{{.Title}}</a>
+            <p>{{.Content}}</p>
+        </li>
+        {{end}}
+    </ul>
+</div>
+
+<a href="/home">Retour à la page d'accueil</a>
+</body>
+</html>

@@ -30,6 +30,7 @@ func Start() {
 	http.HandleFunc("/view_comment", handleGetCommentPage)
 	http.HandleFunc("/update_comment", handleUpdateCommentPage)
 	http.HandleFunc("/delete_comment", handleDeleteCommentPage)
+	http.HandleFunc("/view_category_posts", handleGetCategoryPostsPage)
 
 	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
 
