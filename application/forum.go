@@ -271,8 +271,8 @@ func GetComment(id int) (*Comment, error) {
 }
 
 func UpdateComment(comment *Comment) error {
-	query := `UPDATE comments SET content = ?, created_by = ?, post_id = ?, approved = ? WHERE id = ?`
-	_, err := DB.Exec(query, comment.Content, comment.CreatedBy, comment.PostID, comment.Approved, comment.ID)
+	query := `UPDATE comments SET content = ? WHERE id = ?`
+	_, err := DB.Exec(query, comment.Content, comment.ID)
 	if err != nil {
 		log.Printf("Error updating comment: %v", err)
 	}
