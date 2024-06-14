@@ -37,6 +37,7 @@ type Post struct {
 	CategoryID int
 	CreatedAt  time.Time
 	Approved   bool
+	Comments   []Comment
 }
 
 type Comment struct {
@@ -306,7 +307,7 @@ func GetAllCategories() ([]Category, error) {
 	return categories, nil
 }
 
-func GetRecentPosts() ([]Post, error) {
+func GetRecentPostsWithComments() ([]Post, error) {
 	rows, err := DB.Query("SELECT id, title, content, image_url, created_by, category_id, created_at, approved FROM posts ORDER BY created_at DESC LIMIT 10")
 	if err != nil {
 		return nil, err
@@ -319,6 +320,11 @@ func GetRecentPosts() ([]Post, error) {
 		if err := rows.Scan(&post.ID, &post.Title, &post.Content, &post.ImageURL, &post.CreatedBy, &post.CategoryID, &post.CreatedAt, &post.Approved); err != nil {
 			return nil, err
 		}
+		comments, err := GetCommentsByPostID(post.ID)
+		if err != nil {
+			return nil, err
+		}
+		post.Comments = comments
 		posts = append(posts, post)
 	}
 
@@ -327,6 +333,25 @@ func GetRecentPosts() ([]Post, error) {
 
 func GetAllComments() ([]Comment, error) {
 	rows, err := DB.Query("SELECT id, content, created_by, post_id, created_at, approved FROM comments")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var comments []Comment
+	for rows.Next() {
+		var comment Comment
+		if err := rows.Scan(&comment.ID, &comment.Content, &comment.CreatedBy, &comment.PostID, &comment.CreatedAt, &comment.Approved); err != nil {
+			return nil, err
+		}
+		comments = append(comments, comment)
+	}
+
+	return comments, nil
+}
+
+func GetCommentsByPostID(postID int) ([]Comment, error) {
+	rows, err := DB.Query("SELECT id, content, created_by, post_id, created_at, approved FROM comments WHERE post_id = ?", postID)
 	if err != nil {
 		return nil, err
 	}

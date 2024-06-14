@@ -10,8 +10,7 @@
         <label for="content">Content:</label>
         <textarea id="content" name="content" required></textarea>
         <br>
-        <label for="post_id">Post ID:</label>
-        <input type="text" id="post_id" name="post_id" required>
+        <input type="hidden" id="post_id" name="post_id" value="{{.PostID}}" required>
         <br>
         <label for="created_by">Created By:</label>
         <input type="text" id="created_by" name="created_by" required>

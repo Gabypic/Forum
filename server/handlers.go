@@ -74,23 +74,15 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	posts, err := application.GetRecentPosts()
+	posts, err := application.GetRecentPostsWithComments()
 	if err != nil {
 		http.Error(w, "Failed to load posts", http.StatusInternalServerError)
-		return
-	}
-
-	comments, err := application.GetAllComments()
-	if err != nil {
-		log.Printf("Error loading comments: %v", err)
-		http.Error(w, "Failed to load comments", http.StatusInternalServerError)
 		return
 	}
 
 	data := map[string]interface{}{
 		"Categories": categories,
 		"Posts":      posts,
-		"Comments":   comments,
 	}
 
 	renderTemplate(w, "home", data)
@@ -330,8 +322,16 @@ func handleGetPostPage(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Post not found", http.StatusNotFound)
 		return
 	}
+
+	comments, err := application.GetCommentsByPostID(id)
+	if err != nil {
+		http.Error(w, "Failed to load comments", http.StatusInternalServerError)
+		return
+	}
+
 	data := map[string]interface{}{
 		"Post":                  post,
+		"Comments":              comments,
 		"ShowEditDeleteButtons": authorButtons,
 	}
 	renderTemplate(w, "view_post", data)
@@ -458,7 +458,11 @@ func DeletePostHandler(w http.ResponseWriter, r *http.Request, id int) {
 
 func handleCreateCommentPage(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		renderTemplate(w, "create_comment", nil)
+		postID := r.URL.Query().Get("post_id")
+		data := map[string]interface{}{
+			"PostID": postID,
+		}
+		renderTemplate(w, "create_comment", data)
 		return
 	}
 	CreateCommentHandler(w, r)
@@ -531,10 +535,12 @@ func CreateCommentHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	postID := atoi(r.FormValue("post_id"))
+
 	comment := application.Comment{
 		Content:   r.FormValue("content"),
 		CreatedBy: r.FormValue("created_by"),
-		PostID:    atoi(r.FormValue("post_id")),
+		PostID:    postID,
 		Approved:  r.FormValue("approved") == "true",
 	}
 
