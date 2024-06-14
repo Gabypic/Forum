@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="67bda415-c808-46a1-bba4-c0e17f7b8749" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/forum.go" beforeDir="false" afterPath="$PROJECT_DIR$/application/forum.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/handlers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/create_comment.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/create_comment.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/create_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/create_post.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/home.html" afterDir="false" />
-    </list>
+    <list default="true" id="67bda415-c808-46a1-bba4-c0e17f7b8749" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +42,7 @@
     "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Merging main",
+    "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
     "ignore.virus.scanning.warn.message": "true",

@@ -5,22 +5,16 @@
     <title>Create Comment</title>
 </head>
 <body>
-    <h1>Create Comment</h1>
+    <h1>Créer un commentaire</h1>
     <form action="/create_comment" method="post">
-        <label for="content">Content:</label>
+        <label for="content">Commentaire:</label>
         <textarea id="content" name="content" required></textarea>
         <br>
         <input type="hidden" id="post_id" name="post_id" value="{{.PostID}}" required>
         <br>
-        <label for="created_by">Created By:</label>
-        <input type="text" id="created_by" name="created_by" required>
-        <br>
-        <label for="approved">Approved:</label>
-        <input type="checkbox" id="approved" name="approved">
-        <br>
-        <button type="submit">Create Comment</button>
+        <button type="submit">Créer le commmentaire</button>
     </form>
     <br>
-    <a href="/home">Back to Home</a>
+    <a href="/home">retour à l'accueil</a>
 </body>
 </html>

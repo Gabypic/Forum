@@ -1,28 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Update Comment</title>
 </head>
 <body>
-    <h1>Update Comment</h1>
+    <h1>Modifier le commentaire</h1>
     <form action="/update_comment" method="post">
         <input type="hidden" name="id" value="{{.Comment.ID}}">
-        <label for="content">Content:</label>
+        <label for="content">Contenu:</label>
         <textarea id="content" name="content" required>{{.Comment.Content}}</textarea>
+        <input type="hidden" id="post_id" name="post_id" value="{{.Comment.PostID}}">
         <br>
-        <label for="post_id">Post ID:</label>
-        <input type="text" id="post_id" name="post_id" value="{{.Comment.PostID}}" required>
         <br>
-        <label for="created_by">Created By:</label>
-        <input type="text" id="created_by" name="created_by" value="{{.Comment.CreatedBy}}" required>
-        <br>
-        <label for="approved">Approved:</label>
-        <input type="checkbox" id="approved" name="approved" {{if .Comment.Approved}}checked{{end}}>
-        <br>
-        <button type="submit">Update Comment</button>
+        <button type="submit">Modifier le commentaire</button>
     </form>
     <br>
-    <a href="/home">Back to Home</a>
+    <a href="/home">retour à l'accueil</a>
 </body>
 </html>

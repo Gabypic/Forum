@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>View Post</title>
@@ -8,17 +8,15 @@
     <h1>{{.Post.Title}}</h1>
     <p>{{.Post.Content}}</p>
     <img src="{{.Post.ImageURL}}" alt="Post Image">
-    <p>Category ID: {{.Post.CategoryID}}</p>
-    <p>Approved: {{if .Post.Approved}}Yes{{else}}No{{end}}</p>
     <br>
     {{if .ShowEditDeleteButtons}}
-    <a href="/update_post?id={{.Post.ID}}">Edit Post</a>
+    <a href="/update_post?id={{.Post.ID}}">Modifier le post</a>
     <form action="/delete_post" method="post" style="display:inline;">
         <input type="hidden" name="id" value="{{.Post.ID}}">
-        <button type="submit">Delete Post</button>
+        <button type="submit">Supprimer le post</button>
     </form>
     <br>
     {{end}}
-    <a href="/home">Back to Home</a>
+    <a href="/home">Retour à l'accueil"</a>
 </body>
 </html>

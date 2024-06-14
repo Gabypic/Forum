@@ -1,31 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Update Post</title>
 </head>
 <body>
-    <h1>Update Post</h1>
+    <h1>Modifier le post</h1>
     <form action="/update_post" method="post">
         <input type="hidden" name="id" value="{{.Post.ID}}">
-        <label for="title">Title:</label>
+        <label for="title">Titre:</label>
         <input type="text" id="title" name="title" value="{{.Post.Title}}" required>
         <br>
-        <label for="content">Content:</label>
+        <label for="content">Contenu:</label>
         <textarea id="content" name="content" required>{{.Post.Content}}</textarea>
         <br>
-        <label for="image_url">Image URL:</label>
-        <input type="text" id="image_url" name="image_url" value="{{.Post.ImageURL}}">
+        <div class="form-group">
+            <label for="image_url">Image</label>
+            <input type="file" id="image_url" name="image_url" accept="image/*">
+        </div>
         <br>
-        <label for="category_id">Category ID:</label>
-        <input type="text" id="category_id" name="category_id" value="{{.Post.CategoryID}}" required>
+        <div class="form-group">
+            <label for="category_id">Catégories :</label>
+            <select id="category_id" name="category_id" required>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+                <option value="4">Option 4</option>
+            </select>
+        </div>
         <br>
-        <label for="approved">Approved:</label>
-        <input type="checkbox" id="approved" name="approved" {{if .Post.Approved}}checked{{end}}>
-        <br>
-        <button type="submit">Update Post</button>
+        <button type="submit">Modifier</button>
     </form>
     <br>
-    <a href="/home">Back to Home</a>
+    <a href="/home">Retour à l'accueil</a>
 </body>
 </html>

@@ -218,6 +218,8 @@ func handleDeleteCategoryPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateCategoryHandler(w http.ResponseWriter, r *http.Request) {
+	userTest, _ := GetSessionCookie(r)
+	userDatas, _ := GetSession(userTest)
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
@@ -226,7 +228,7 @@ func CreateCategoryHandler(w http.ResponseWriter, r *http.Request) {
 	category := application.Category{
 		Name:        r.FormValue("name"),
 		Description: r.FormValue("description"),
-		CreatedBy:   r.FormValue("created_by"),
+		CreatedBy:   userDatas.Username,
 	}
 
 	err := application.CreateCategory(&category)
@@ -372,8 +374,6 @@ func handleDeletePostPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
-	user, _ := GetSessionCookie(r)
-	userDatas, _ := GetSession(user)
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
@@ -383,7 +383,7 @@ func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 		Title:      r.FormValue("title"),
 		Content:    r.FormValue("content"),
 		ImageURL:   r.FormValue("image_url"),
-		CreatedBy:  userDatas.Username,
+		CreatedBy:  r.FormValue("created_by"),
 		CategoryID: atoi(r.FormValue("category_id")),
 		Approved:   r.FormValue("approved") == "true",
 	}
@@ -530,6 +530,8 @@ func handleDeleteCommentPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateCommentHandler(w http.ResponseWriter, r *http.Request) {
+	userTest, _ := GetSessionCookie(r)
+	userDatas, _ := GetSession(userTest)
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
@@ -539,7 +541,7 @@ func CreateCommentHandler(w http.ResponseWriter, r *http.Request) {
 
 	comment := application.Comment{
 		Content:   r.FormValue("content"),
-		CreatedBy: r.FormValue("created_by"),
+		CreatedBy: userDatas.Username,
 		PostID:    postID,
 		Approved:  r.FormValue("approved") == "true",
 	}
