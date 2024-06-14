@@ -3,19 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Créer une catégorie</title>
+    <link href="../static/createCategory.css" rel="stylesheet">
 </head>
 <body>
+<div class="container">
     <h1>Créer une catégorie</h1>
     <form action="/create_category" method="post">
-        <label for="name">Nom de la catégorie :</label>
-        <input type="text" id="name" name="name" required>
-        <br>
-        <label for="description">Description :</label>
-        <textarea id="description" name="description" required></textarea>
-        <br>
-        <button type="submit">Créer</button>
+        <div class="form-group">
+            <label for="name">Nom de la catégorie :</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description :</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit">Créer</button>
+        </div>
     </form>
     <br>
-    <a href="/home">Retour à l'accueil</a>
+    <div class="form-group">
+        <button onclick="window.location.href='/home';">Retour à l'accueil</button>
+    </div>
+</div>
 </body>
 </html>
