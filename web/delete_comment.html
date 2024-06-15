@@ -6,9 +6,10 @@
 </head>
 <body>
     <h1>Are you sure you want to delete this comment?</h1>
-    <p>{{.Comment.Content}}</p>
+    <p>{{.CommentID}}</p>
     <form action="/delete_comment" method="post">
-        <input type="hidden" name="id" value="{{.Comment.ID}}">
+        <input type="hidden" name="id" value="{{.CommentID}}">
+        <input type="hidden" name="category_id" value="{{.CategoryID}}">
         <button type="submit">Yes, Delete</button>
     </form>
     <br>

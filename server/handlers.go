@@ -170,6 +170,15 @@ func handleCreateCategoryPage(w http.ResponseWriter, r *http.Request) {
 
 func handleGetCategoryPage(w http.ResponseWriter, r *http.Request) {
 	request := r.URL.Query().Get("id")
+	userTest, _ := GetSessionCookie(r)
+	userDatas, _ := GetSession(userTest)
+	var showEditDeleteButtons bool
+	if userDatas != nil && (userDatas.Admin == true || userDatas.Modo == true) {
+		showEditDeleteButtons = true
+	} else {
+		showEditDeleteButtons = false
+	}
+
 	id, err := strconv.Atoi(request)
 	if err != nil {
 		http.Error(w, "Invalid category ID", http.StatusBadRequest)
@@ -180,7 +189,26 @@ func handleGetCategoryPage(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Category not found", http.StatusNotFound)
 		return
 	}
-	renderTemplate(w, "view_category", map[string]interface{}{"Category": category})
+	posts, err := application.GetPostsByCategoryID(id)
+	if err != nil {
+		http.Error(w, "Failed to load posts", http.StatusInternalServerError)
+		return
+	}
+	for i, post := range posts {
+		comments, err := application.GetCommentsByPostID(post.ID)
+		if err != nil {
+			http.Error(w, "Failed to load comments", http.StatusInternalServerError)
+			return
+		}
+		posts[i].Comments = comments
+	}
+
+	data := map[string]interface{}{
+		"Category":              category,
+		"Posts":                 posts,
+		"ShowEditDeleteButtons": showEditDeleteButtons,
+	}
+	renderTemplate(w, "view_category_posts", data)
 }
 
 func handleUpdateCategoryPage(w http.ResponseWriter, r *http.Request) {
@@ -468,8 +496,10 @@ func DeletePostHandler(w http.ResponseWriter, r *http.Request, id int) {
 func handleCreateCommentPage(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		postID := r.URL.Query().Get("post_id")
+		categoryID := r.URL.Query().Get("category_id")
 		data := map[string]interface{}{
-			"PostID": postID,
+			"PostID":     postID,
+			"CategoryID": categoryID,
 		}
 		renderTemplate(w, "create_comment", data)
 		return
@@ -547,6 +577,7 @@ func CreateCommentHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	postID := atoi(r.FormValue("post_id"))
+	categoryID := atoi(r.FormValue("category_id"))
 
 	comment := application.Comment{
 		Content:   r.FormValue("content"),
@@ -557,11 +588,12 @@ func CreateCommentHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := application.CreateComment(&comment)
 	if err != nil {
+		log.Printf("Failed to create comment: %v", err)
 		http.Error(w, "Failed to create comment", http.StatusInternalServerError)
 		return
 	}
 
-	http.Redirect(w, r, "/home", http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("/view_category_posts?id=%d", categoryID), http.StatusSeeOther)
 }
 
 func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
@@ -629,6 +661,15 @@ func DeleteCommentHandler(w http.ResponseWriter, r *http.Request, id int) {
 
 func handleGetCategoryPostsPage(w http.ResponseWriter, r *http.Request) {
 	request := r.URL.Query().Get("id")
+	userTest, _ := GetSessionCookie(r)
+	userDatas, _ := GetSession(userTest)
+	var showEditDeleteButtons bool
+	if userDatas != nil && (userDatas.Admin == true || userDatas.Modo == true) {
+		showEditDeleteButtons = true
+	} else {
+		showEditDeleteButtons = false
+	}
+
 	id, err := strconv.Atoi(request)
 	if err != nil {
 		http.Error(w, "Invalid category ID", http.StatusBadRequest)
@@ -644,9 +685,21 @@ func handleGetCategoryPostsPage(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to load posts", http.StatusInternalServerError)
 		return
 	}
+
+	// Récupérer les commentaires pour chaque post
+	for i, post := range posts {
+		comments, err := application.GetCommentsByPostID(post.ID)
+		if err != nil {
+			http.Error(w, "Failed to load comments", http.StatusInternalServerError)
+			return
+		}
+		posts[i].Comments = comments
+	}
+
 	data := map[string]interface{}{
-		"Category": category,
-		"Posts":    posts,
+		"Category":              category,
+		"Posts":                 posts,
+		"ShowEditDeleteButtons": showEditDeleteButtons,
 	}
 	renderTemplate(w, "view_category_posts", data)
 }

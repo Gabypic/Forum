@@ -1,0 +1,155 @@
+/* category.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+    color: white;
+}
+
+header .search-bar input {
+    padding: 5px;
+    border-radius: 4px;
+    border: none;
+}
+
+header form {
+    margin: 0;
+}
+
+header .profile-btn {
+    background-color: #4CAF50;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+header .profile-btn:hover {
+    background-color: #45a049;
+}
+
+.create {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.create .createBtn {
+    background-color: #4CAF50;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.create .createBtn:hover {
+    background-color: #45a049;
+}
+
+.posts {
+    margin-bottom: 20px;
+}
+
+.posts h2 {
+    margin-bottom: 10px;
+}
+
+.posts ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.posts li {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.posts li a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.posts li a:hover {
+    text-decoration: underline;
+}
+
+.comments {
+    margin-top: 10px;
+}
+
+.comments ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comments li {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.comments p {
+    margin: 0;
+}
+
+.comments .comment-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.comments .comment-actions form {
+    display: inline;
+}
+
+.deleteBtn {
+    background-color: #f44336;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.deleteBtn:hover {
+    background-color: #e53935;
+}
+
+.modifyBtn {
+    background-color: #ffc107;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.modifyBtn:hover {
+    background-color: #ffb300;
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
