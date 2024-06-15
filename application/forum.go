@@ -387,3 +387,22 @@ func GetPostsByCategoryID(categoryID int) ([]Post, error) {
 
 	return posts, nil
 }
+
+func GetUncategorizedPostsWithComments() ([]Post, error) {
+	rows, err := DB.Query("SELECT id, title, content, image_url, created_by, category_id, created_at, approved FROM posts WHERE category_id IS NULL ORDER BY created_at DESC LIMIT 10")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var posts []Post
+	for rows.Next() {
+		var post Post
+		if err := rows.Scan(&post.ID, &post.Title, &post.Content, &post.ImageURL, &post.CreatedBy, &post.CategoryID, &post.CreatedAt, &post.Approved); err != nil {
+			return nil, err
+		}
+		posts = append(posts, post)
+	}
+
+	return posts, nil
+}

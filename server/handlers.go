@@ -74,7 +74,7 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	posts, err := application.GetRecentPostsWithComments()
+	posts, err := application.GetUncategorizedPostsWithComments()
 	if err != nil {
 		http.Error(w, "Failed to load posts", http.StatusInternalServerError)
 		return
