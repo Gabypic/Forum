@@ -399,7 +399,23 @@ func handleUpdatePostPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleDeletePostPage(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
+	if r.Method == http.MethodGet {
+		request := r.URL.Query().Get("id")
+		id, err := strconv.Atoi(request)
+		if err != nil {
+			http.Error(w, "Invalid post ID", http.StatusBadRequest)
+			return
+		}
+		post, err := application.GetPost(id)
+		if err != nil || post == nil {
+			http.Error(w, "Post not found", http.StatusNotFound)
+			return
+		}
+		data := map[string]interface{}{
+			"Post": post,
+		}
+		renderTemplate(w, "delete_post", data)
+	} else if r.Method == http.MethodPost {
 		request := r.FormValue("id")
 		id, err := strconv.Atoi(request)
 		if err != nil {
@@ -464,13 +480,19 @@ func UpdatePostHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	existingPost, err := application.GetPost(id)
+	if err != nil || existingPost == nil {
+		http.Error(w, "Post not found", http.StatusNotFound)
+		return
+	}
+
 	post := application.Post{
 		ID:         id,
 		Title:      r.FormValue("title"),
 		Content:    r.FormValue("content"),
 		ImageURL:   r.FormValue("image_url"),
-		CreatedBy:  r.FormValue("created_by"),
-		CategoryID: atoi(r.FormValue("category_id")),
+		CreatedBy:  existingPost.CreatedBy,
+		CategoryID: existingPost.CategoryID,
 		Approved:   r.FormValue("approved") == "true",
 	}
 
@@ -480,7 +502,7 @@ func UpdatePostHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/home", http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("/view_category?id=%d", existingPost.CategoryID), http.StatusSeeOther)
 }
 
 func DeletePostHandler(w http.ResponseWriter, r *http.Request, id int) {

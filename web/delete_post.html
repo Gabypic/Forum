@@ -10,7 +10,6 @@
     <p>{{.Post.Content}}</p>
     <form action="/delete_post" method="post">
         <input type="hidden" name="id" value="{{.Post.ID}}">
-        <input type="hidden" name="category_id" value="{{$.CategoryID}}">
         <button type="submit">Yes, Delete</button>
     </form>
     <br>

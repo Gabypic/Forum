@@ -9,14 +9,20 @@
     <p>{{.Post.Content}}</p>
     <img src="{{.Post.ImageURL}}" alt="Post Image">
     <br>
-    {{if .ShowEditDeleteButtons}}
-    <a href="/update_post?id={{.Post.ID}}">Modifier le post</a>
-    <form action="/delete_post" method="post" style="display:inline;">
-        <input type="hidden" name="id" value="{{.Post.ID}}">
-        <button type="submit">Supprimer le post</button>
+    <h2>Commentaires</h2>
+    <ul>
+        {{range .Comments}}
+        <li>
+            <p>{{.Content}} - par {{.CreatedBy}}</p>
+        </li>
+        {{end}}
+    </ul>
+    <form action="/create_comment" method="GET">
+        <input type="hidden" name="post_id" value="{{.Post.ID}}">
+        <input type="hidden" name="category_id" value="{{.Post.CategoryID}}">
+        <button type="submit" class="createBtn">Ajouter un commentaire</button>
     </form>
     <br>
-    {{end}}
-    <a href="/home">Retour à l'accueil"</a>
+    <a href="/home">Retour à l'accueil</a>
 </body>
 </html>
