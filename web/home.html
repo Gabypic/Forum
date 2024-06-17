@@ -36,36 +36,15 @@
     </form>
 </div>
 
-<div class="posts">
-    <h2>Posts Récents non classé</h2>
-    {{range .Posts}}
-    <div class="post">
-        <a href="/view_post?id={{.ID}}" class="post-title">{{.Title}}</a>
-        <p>{{.Content}}</p>
-        <div class="comments">
-            <h3>Commentaires</h3>
-            {{range .Comments}}
-            <div class="comment">
-                <p>{{.Content}} - par {{.CreatedBy}}</p>
-                <div class="comment-actions">
-                    <form action="/update_comment" method="GET" style="display:inline;">
-                        <input type="hidden" name="id" value="{{.ID}}">
-                        <button type="submit">Modifier</button>
-                    </form>
-                    <form action="/delete_comment" method="POST" style="display:inline;">
-                        <input type="hidden" name="id" value="{{.ID}}">
-                        <button type="submit">Supprimer</button>
-                    </form>
-                </div>
-            </div>
-            {{end}}
-            <form action="/create_comment" method="GET">
-                <input type="hidden" name="post_id" value="{{.ID}}">
-                <button type="submit" class="createBtn">Ajouter un commentaire</button>
-            </form>
-        </div>
-    </div>
-    {{end}}
+<div class="categories">
+    <h2>Catégories</h2>
+    <ul>
+        {{range .Categories}}
+        <li>
+            <a href="/view_category_posts?id={{.ID}}">{{.Name}}</a>
+        </li>
+        {{end}}
+    </ul>
 </div>
 
 </body>

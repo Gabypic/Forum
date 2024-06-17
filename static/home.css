@@ -98,15 +98,20 @@ header .profile-btn:hover {
     display: block;
 }
 
-.categories, .posts, .comments {
+.categories {
     margin-bottom: 20px;
 }
 
-.categories h2, .posts h2, .comments h2 {
+.categories h2 {
     margin-bottom: 10px;
 }
 
-.category, .post, .comment {
+.categories ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.categories li {
     background-color: #fff;
     padding: 10px;
     border-radius: 4px;
@@ -114,47 +119,12 @@ header .profile-btn:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.category a, .post a {
+.categories li a {
     color: #007BFF;
     text-decoration: none;
+    font-weight: bold;
 }
 
-.category a:hover, .post a:hover {
+.categories li a:hover {
     text-decoration: underline;
-}
-
-.comment {
-    margin-left: 20px;
-}
-
-.comment-actions {
-    margin-top: 10px;
-}
-
-.comment-actions button {
-    background-color: #007BFF;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-    margin-right: 5px;
-}
-
-.comment-actions button:hover {
-    background-color: #0056b3;
-}
-
-.create-comment-btn {
-    background-color: #4CAF50;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.create-comment-btn:hover {
-    background-color: #45a049;
 }

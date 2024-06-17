@@ -662,7 +662,7 @@ func UpdateCommentHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/home", http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("/view_post?id=%d", comment.PostID), http.StatusSeeOther)
 }
 
 func DeleteCommentHandler(w http.ResponseWriter, r *http.Request, id int) {
@@ -678,7 +678,7 @@ func DeleteCommentHandler(w http.ResponseWriter, r *http.Request, id int) {
 		return
 	}
 
-	http.Redirect(w, r, "/home", http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("/view_post?id=%d", comment.PostID), http.StatusSeeOther)
 }
 
 func handleGetCategoryPostsPage(w http.ResponseWriter, r *http.Request) {
