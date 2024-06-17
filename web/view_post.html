@@ -14,6 +14,7 @@
         {{range .Comments}}
         <li>
             <p>{{.Content}} - par {{.CreatedBy}}</p>
+            {{if $.ShowEditDeleteButtons}}
             <form action="/update_comment" method="GET" style="display:inline;">
                 <input type="hidden" name="id" value="{{.ID}}">
                 <button type="submit">Modifier</button>
@@ -22,6 +23,7 @@
                 <input type="hidden" name="id" value="{{.ID}}">
                 <button type="submit">Supprimer</button>
             </form>
+            {{end}}
         </li>
         {{end}}
     </ul>

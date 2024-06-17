@@ -44,6 +44,7 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Loaded categories: %v", categories)
 	userTest, _ := GetSessionCookie(r)
 	userDatas, _ := GetSession(userTest)
+	var showEditDeleteButtons bool
 	if userDatas == nil {
 		email := r.FormValue("email")
 		password := r.FormValue("password")
@@ -74,6 +75,12 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if userDatas != nil && (userDatas.Admin == true || userDatas.Modo == true) {
+		showEditDeleteButtons = true
+	} else {
+		showEditDeleteButtons = false
+	}
+
 	posts, err := application.GetUncategorizedPostsWithComments()
 	if err != nil {
 		http.Error(w, "Failed to load posts", http.StatusInternalServerError)
@@ -83,6 +90,7 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 	data := map[string]interface{}{
 		"Categories": categories,
 		"Posts":      posts,
+		"ShowEditDeleteButtons": showEditDeleteButtons,
 	}
 
 	renderTemplate(w, "home", data)
@@ -212,6 +220,12 @@ func handleGetCategoryPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleUpdateCategoryPage(w http.ResponseWriter, r *http.Request) {
+	userTest, _ := GetSessionCookie(r)
+    userDatas, _ := GetSession(userTest)
+    if userDatas == nil || (!userDatas.Admin && !userDatas.Modo) {
+        http.Error(w, "Unauthorized", http.StatusUnauthorized)
+        return
+    }
 	if r.Method == http.MethodGet {
 		request := r.URL.Query().Get("id")
 		id, err := strconv.Atoi(request)
@@ -234,6 +248,12 @@ func handleUpdateCategoryPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleDeleteCategoryPage(w http.ResponseWriter, r *http.Request) {
+	userTest, _ := GetSessionCookie(r)
+    userDatas, _ := GetSession(userTest)
+    if userDatas == nil || (!userDatas.Admin && !userDatas.Modo) {
+        http.Error(w, "Unauthorized", http.StatusUnauthorized)
+        return
+    }
 	if r.Method == http.MethodPost {
 		request := r.FormValue("id")
 		id, err := strconv.Atoi(request)
@@ -345,11 +365,11 @@ func handleGetPostPage(w http.ResponseWriter, r *http.Request) {
 	request := r.URL.Query().Get("id")
 	userTest, _ := GetSessionCookie(r)
 	userDatas, _ := GetSession(userTest)
-	var authorButtons bool
-	if userDatas.Admin == true || userDatas.Modo == true {
-		authorButtons = true
+	var showEditDeleteButtons bool
+	if userDatas != nil && (userDatas.Admin == true || userDatas.Modo == true) {
+		showEditDeleteButtons = true
 	} else {
-		authorButtons = false
+		showEditDeleteButtons = false
 	}
 	id, err := strconv.Atoi(request)
 	if err != nil {
@@ -371,12 +391,18 @@ func handleGetPostPage(w http.ResponseWriter, r *http.Request) {
 	data := map[string]interface{}{
 		"Post":                  post,
 		"Comments":              comments,
-		"ShowEditDeleteButtons": authorButtons,
+		"ShowEditDeleteButtons": showEditDeleteButtons,
 	}
 	renderTemplate(w, "view_post", data)
 }
 
 func handleUpdatePostPage(w http.ResponseWriter, r *http.Request) {
+	userTest, _ := GetSessionCookie(r)
+    userDatas, _ := GetSession(userTest)
+    if userDatas == nil || (!userDatas.Admin && !userDatas.Modo) {
+        http.Error(w, "Unauthorized", http.StatusUnauthorized)
+        return
+    }
 	if r.Method == http.MethodGet {
 		request := r.URL.Query().Get("id")
 		id, err := strconv.Atoi(request)
@@ -399,6 +425,12 @@ func handleUpdatePostPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleDeletePostPage(w http.ResponseWriter, r *http.Request) {
+	userTest, _ := GetSessionCookie(r)
+    userDatas, _ := GetSession(userTest)
+    if userDatas == nil || (!userDatas.Admin && !userDatas.Modo) {
+        http.Error(w, "Unauthorized", http.StatusUnauthorized)
+        return
+    }
 	if r.Method == http.MethodGet {
 		request := r.URL.Query().Get("id")
 		id, err := strconv.Atoi(request)
@@ -533,11 +565,11 @@ func handleGetCommentPage(w http.ResponseWriter, r *http.Request) {
 	request := r.URL.Query().Get("id")
 	userTest, _ := GetSessionCookie(r)
 	userDatas, _ := GetSession(userTest)
-	var authorButtons bool
-	if userDatas.Admin == true || userDatas.Modo == true {
-		authorButtons = true
+	var showEditDeleteButtons bool
+	if userDatas != nil && (userDatas.Admin == true || userDatas.Modo == true) {
+		showEditDeleteButtons = true
 	} else {
-		authorButtons = false
+		showEditDeleteButtons = false
 	}
 	id, err := strconv.Atoi(request)
 	if err != nil {
@@ -551,12 +583,18 @@ func handleGetCommentPage(w http.ResponseWriter, r *http.Request) {
 	}
 	data := map[string]interface{}{
 		"Comment":               comment,
-		"ShowEditDeleteButtons": authorButtons,
+		"ShowEditDeleteButtons": showEditDeleteButtons,
 	}
 	renderTemplate(w, "view_comment", data)
 }
 
 func handleUpdateCommentPage(w http.ResponseWriter, r *http.Request) {
+	userTest, _ := GetSessionCookie(r)
+    userDatas, _ := GetSession(userTest)
+    if userDatas == nil || (!userDatas.Admin && !userDatas.Modo) {
+        http.Error(w, "Unauthorized", http.StatusUnauthorized)
+        return
+    }
 	if r.Method == http.MethodGet {
 		request := r.URL.Query().Get("id")
 		id, err := strconv.Atoi(request)
@@ -579,6 +617,12 @@ func handleUpdateCommentPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleDeleteCommentPage(w http.ResponseWriter, r *http.Request) {
+	userTest, _ := GetSessionCookie(r)
+    userDatas, _ := GetSession(userTest)
+    if userDatas == nil || (!userDatas.Admin && !userDatas.Modo) {
+        http.Error(w, "Unauthorized", http.StatusUnauthorized)
+        return
+    }
 	if r.Method == http.MethodPost {
 		request := r.FormValue("id")
 		id, err := strconv.Atoi(request)
