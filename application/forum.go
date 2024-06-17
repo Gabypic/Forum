@@ -406,3 +406,21 @@ func GetUncategorizedPostsWithComments() ([]Post, error) {
 
 	return posts, nil
 }
+
+func GetAllUsers() ([]User, error) {
+	rows, err := DB.Query("SELECT username FROM users")
+	if err != nil {
+		return nil, err
+	}
+	var users []User
+	for rows.Next() {
+		var user User
+		if err := rows.Scan(&user.Username); err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+	fmt.Print("users2")
+	fmt.Println(users)
+	return users, nil
+}
