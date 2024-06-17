@@ -26,10 +26,10 @@ func GetSessionCookie(r *http.Request) (string, error) {
 	return cookie.Value, nil
 }
 
-func ClearSessionCookie(w http.ResponseWriter) {
+func ClearSessionCookie(w http.ResponseWriter, sessionID string) {
 	cookie := &http.Cookie{
 		Name:    "session_id",
-		Value:   "",
+		Value:   sessionID,
 		Path:    "/",
 		Expires: time.Now().Add(-1 * time.Hour),
 	}

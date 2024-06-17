@@ -35,6 +35,10 @@
     <form action="/update_user" method="GET">
         <button type="submit" class="profile-btn">Modifier les informations</button>
     </form>
+    <form action="/disconnect" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir vous deconnecter?');">
+        <input type="hidden" name="id" value="{{.UserID}}">
+        <button type="submit" class="delete-btn">Se déconnecter</button>
+    </form>
     <form action="/delete_user" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ?');">
         <input type="hidden" name="id" value="{{.UserID}}">
         <button type="submit" class="delete-btn">Supprimer le compte</button>
