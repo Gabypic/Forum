@@ -9,11 +9,35 @@
     <p>{{.Post.Content}}</p>
     <img src="{{.Post.ImageURL}}" alt="Post Image">
     <br>
+    <form action="/like" method="POST">
+        <input type="hidden" name="type" value="like">
+        <input type="hidden" name="post_id" value="{{.Post.ID}}">
+        <input type="hidden" name="comment_id" value="">
+        <button type="submit">Like</button>
+    </form>
+    <form action="/unlike" method="POST">
+        <input type="hidden" name="type" value="like">
+        <input type="hidden" name="post_id" value="{{.Post.ID}}">
+        <input type="hidden" name="comment_id" value="">
+        <button type="submit">Unlike</button>
+    </form>
     <h2>Commentaires</h2>
     <ul>
         {{range .Comments}}
         <li>
             <p>{{.Content}} - par {{.CreatedBy}}</p>
+            <form action="/like" method="POST">
+                <input type="hidden" name="type" value="like">
+                <input type="hidden" name="post_id" value="">
+                <input type="hidden" name="comment_id" value="{{.ID}}">
+                <button type="submit">Like</button>
+            </form>
+            <form action="/unlike" method="POST">
+                <input type="hidden" name="type" value="like">
+                <input type="hidden" name="post_id" value="">
+                <input type="hidden" name="comment_id" value="{{.ID}}">
+                <button type="submit">Unlike</button>
+            </form>
             {{if $.ShowEditDeleteButtons}}
             <form action="/update_comment" method="GET" style="display:inline;">
                 <input type="hidden" name="id" value="{{.ID}}">

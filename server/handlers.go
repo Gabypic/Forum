@@ -777,7 +777,6 @@ func handleGetCategoryPostsPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Récupérer les commentaires pour chaque post
 	for i, post := range posts {
 		comments, err := application.GetCommentsByPostID(post.ID)
 		if err != nil {
@@ -793,6 +792,62 @@ func handleGetCategoryPostsPage(w http.ResponseWriter, r *http.Request) {
 		"ShowEditDeleteButtons": showEditDeleteButtons,
 	}
 	renderTemplate(w, "view_category_posts", data)
+}
+
+func handleLike(w http.ResponseWriter, r *http.Request) {
+	user, err := GetSessionCookie(r)
+	if err != nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+	userDatas, _ := GetSession(user)
+
+	reactionType := r.FormValue("type")
+	postID, _ := strconv.Atoi(r.FormValue("post_id"))
+	commentID, _ := strconv.Atoi(r.FormValue("comment_id"))
+
+	reaction := &application.Reaction{
+		Type:      reactionType,
+		CreatedBy: userDatas.Username,
+		PostID:    &postID,
+		CommentID: &commentID,
+	}
+
+	err = application.CreateReaction(reaction)
+	if err != nil {
+		http.Error(w, "Failed to like", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, r.Header.Get("Referer"), http.StatusSeeOther)
+}
+
+func handleUnlike(w http.ResponseWriter, r *http.Request) {
+	user, err := GetSessionCookie(r)
+	if err != nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+	userDatas, _ := GetSession(user)
+
+	reactionType := r.FormValue("type")
+	postID, _ := strconv.Atoi(r.FormValue("post_id"))
+	commentID, _ := strconv.Atoi(r.FormValue("comment_id"))
+
+	reaction := &application.Reaction{
+		Type:      reactionType,
+		CreatedBy: userDatas.Username,
+		PostID:    &postID,
+		CommentID: &commentID,
+	}
+
+	err = application.DeleteReaction(reaction)
+	if err != nil {
+		http.Error(w, "Failed to unlike", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, r.Header.Get("Referer"), http.StatusSeeOther)
 }
 
 func disconnection(w http.ResponseWriter, r *http.Request) {

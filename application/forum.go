@@ -288,6 +288,48 @@ func DeleteComment(id int) error {
 	return err
 }
 
+func CreateReaction(reaction *Reaction) error {
+	reaction.CreatedAt = time.Now()
+
+	query := `INSERT INTO reactions (type, created_by, post_id, comment_id, created_at) VALUES (?, ?, ?, ?, ?)`
+	_, err := DB.Exec(query, reaction.Type, reaction.CreatedBy, reaction.PostID, reaction.CommentID, reaction.CreatedAt)
+	if err != nil {
+		log.Printf("Error creating reaction: %v", err)
+		return err
+	}
+	return nil
+}
+
+func DeleteReaction(reaction *Reaction) error {
+	query := `DELETE FROM reactions WHERE type = ? AND created_by = ? AND post_id = ? AND comment_id = ?`
+	_, err := DB.Exec(query, reaction.Type, reaction.CreatedBy, reaction.PostID, reaction.CommentID)
+	if err != nil {
+		log.Printf("Error deleting reaction: %v", err)
+		return err
+	}
+	return nil
+}
+
+func GetReactionCount(postID *int, commentID *int, reactionType string) (int, error) {
+	var count int
+	query := `SELECT COUNT(*) FROM reactions WHERE type = ? AND post_id = ? AND comment_id = ?`
+	err := DB.QueryRow(query, reactionType, postID, commentID).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+func UserHasReacted(createdBy string, postID *int, commentID *int, reactionType string) (bool, error) {
+	var count int
+	query := `SELECT COUNT(*) FROM reactions WHERE type = ? AND created_by = ? AND post_id = ? AND comment_id = ?`
+	err := DB.QueryRow(query, reactionType, createdBy, postID, commentID).Scan(&count)
+	if err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}
+
 func GetAllCategories() ([]Category, error) {
 	rows, err := DB.Query("SELECT id, name, description, created_by, created_at FROM categories")
 	if err != nil {
