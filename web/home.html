@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page d'accueil du forum</title>
-    <link href="../static/home.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/home.css">
 </head>
 <body>
 
@@ -18,7 +18,7 @@
             {{if .Suggestions}}
             <ul>
                 {{range .Suggestions}}
-                <li><a href="/view_post?id={{.ID}}">{{.Title}}</a></li>
+                <li><a href="/profil">{{.}}</a></li>
                 {{end}}
             </ul>
             {{end}}
@@ -40,7 +40,7 @@
             <a href="/view_category_posts?id={{.ID}}">{{.Name}}</a>
             {{end}}
         </div>
-    </div>    
+    </div>
     <form action="/create_category" method="GET">
         <button class="createBtn" type="submit">Créer une catégorie</button>
     </form>

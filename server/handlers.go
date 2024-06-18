@@ -7,9 +7,15 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 var templates = template.Must(template.ParseGlob("web/*.html"))
+
+type SuggestionsData struct {
+	Query       string
+	Suggestions []string
+}
 
 func renderTemplate(w http.ResponseWriter, tmpl string, data map[string]interface{}) {
 	err := templates.ExecuteTemplate(w, tmpl+".html", data)
@@ -87,10 +93,29 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	users, err := application.GetAllUsers()
+	if err != nil {
+		log.Printf("Error fetching users: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	query := r.URL.Query().Get("query")
+	var suggestions []string
+	if query != "" {
+		for _, user := range users {
+			if strings.Contains(strings.ToLower(user), strings.ToLower(query)) {
+				suggestions = append(suggestions, user)
+			}
+		}
+	}
+
 	data := map[string]interface{}{
 		"Categories":            categories,
 		"Posts":                 posts,
 		"ShowEditDeleteButtons": showEditDeleteButtons,
+		"Query":                 query,
+		"Suggestions":           suggestions,
 	}
 
 	renderTemplate(w, "home", data)

@@ -128,3 +128,41 @@ header .profile-btn:hover {
 .categories li a:hover {
     text-decoration: underline;
 }
+
+/* New CSS for search suggestions */
+.suggestions {
+    position: relative;
+    margin-top: 5px;
+}
+
+.suggestions ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+}
+
+.suggestions li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.suggestions li:last-child {
+    border-bottom: none;
+}
+
+.suggestions li a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+}
+
+.suggestions li a:hover {
+    background-color: #f2f2f2;
+}
