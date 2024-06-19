@@ -1020,6 +1020,7 @@ func disconnection(w http.ResponseWriter, r *http.Request) {
 
 func handleUsersProfil(w http.ResponseWriter, r *http.Request) {
 	username := r.URL.Query().Get("username")
+	var isAdmin bool
 
 	if username == "" {
 		http.Error(w, "Missing username", http.StatusBadRequest)
@@ -1045,12 +1046,19 @@ func handleUsersProfil(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(likedPosts, "liked")
 
+	if userDatas != nil && (userDatas.Admin == true) {
+		isAdmin = true
+	} else {
+		isAdmin = false
+	}
+
 	data := map[string]interface{}{
 		"User":         userDatas.Username,
 		"Mail":         userDatas.Email,
 		"JoinDate":     userDatas.CreatedAt,
 		"CreatedPosts": createdPost,
 		"LikedPosts":   likedPosts,
+		"isAdmin":      isAdmin,
 	}
 
 	renderTemplate(w, "user_profil", data)
