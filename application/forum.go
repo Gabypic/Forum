@@ -388,6 +388,59 @@ func GetUnlikeCount(postID *int, commentID *int) (int, error) {
 	return GetReactionCount(postID, commentID, "unlike")
 }
 
+func GetPostsByUser(username string) ([]Post, error) {
+	rows, err := DB.Query(`
+        SELECT id, title, content, image_url, created_by, category_id, created_at, approved
+        FROM posts
+        WHERE created_by = ?`, username)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var posts []Post
+	for rows.Next() {
+		var post Post
+		if err := rows.Scan(&post.ID, &post.Title, &post.Content, &post.ImageURL, &post.CreatedBy, &post.CategoryID, &post.CreatedAt, &post.Approved); err != nil {
+			return nil, err
+		}
+		posts = append(posts, post)
+	}
+	return posts, nil
+}
+
+func GetLikedPostsByUser(username string) ([]Post, error) {
+	rows, err := DB.Query(`
+        SELECT p.id, p.title, p.content, p.image_url, p.created_by, p.category_id, p.created_at, p.approved
+        FROM posts p
+        JOIN reactions r ON p.id = r.post_id
+        WHERE r.type = 'like' AND r.created_by = ?`, username)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var posts []Post
+	for rows.Next() {
+		var post Post
+		if err := rows.Scan(&post.ID, &post.Title, &post.Content, &post.ImageURL, &post.CreatedBy, &post.CategoryID, &post.CreatedAt, &post.Approved); err != nil {
+			return nil, err
+		}
+		posts = append(posts, post)
+	}
+	return posts, nil
+}
+
+func GetLikedPostCountByUser(username string) (int, error) {
+	var count int
+	query := `SELECT COUNT(*) FROM reactions WHERE type = 'like' AND created_by = ? AND post_id IS NOT NULL`
+	err := DB.QueryRow(query, username).Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
 func GetAllCategories() ([]Category, error) {
 	rows, err := DB.Query("SELECT id, name, description, created_by, created_at FROM categories")
 	if err != nil {

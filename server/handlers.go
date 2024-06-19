@@ -130,18 +130,37 @@ func handleHomePageRegister(w http.ResponseWriter, r *http.Request) {
 func handleProfilPage(w http.ResponseWriter, r *http.Request) {
 	user, _ := GetSessionCookie(r)
 	userDatas, _ := GetSession(user)
-	fmt.Println(user)
-	if r.Method == http.MethodGet {
-		if r.Method == http.MethodGet {
-			data := map[string]interface{}{
-				"User":     userDatas.Username,
-				"Mail":     userDatas.Mail,
-				"JoinDate": userDatas.joinDate,
-			}
-			renderTemplate(w, "profil", data)
-			return
-		}
+	if userDatas == nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
 	}
+
+	createdPosts, err := application.GetPostsByUser(userDatas.Username)
+	if err != nil {
+		log.Printf("Error fetching created posts: %v", err)
+		http.Error(w, "Failed to load created posts", http.StatusInternalServerError)
+		return
+	}
+
+	likedPosts, err := application.GetLikedPostsByUser(userDatas.Username)
+	if err != nil {
+		log.Printf("Error fetching liked posts: %v", err)
+		http.Error(w, "Failed to load liked posts", http.StatusInternalServerError)
+		return
+	}
+
+	log.Printf("Created posts: %v", createdPosts)
+	log.Printf("Liked posts: %v", likedPosts)
+
+	data := map[string]interface{}{
+		"User":         userDatas.Username,
+		"Mail":         userDatas.Mail,
+		"JoinDate":     userDatas.joinDate,
+		"CreatedPosts": createdPosts,
+		"LikedPosts":   likedPosts,
+	}
+
+	renderTemplate(w, "profil", data)
 }
 
 func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -518,12 +537,14 @@ func handleDeletePostPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+	userTest, _ := GetSessionCookie(r)
+	userDatas, _ := GetSession(userTest)
+	if userDatas == nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
 
-	r.ParseMultipartForm(20 << 20) // Limite de 20 Mo
+	r.ParseMultipartForm(20 << 20)
 
 	file, header, err := r.FormFile("image")
 	var filePath string
@@ -559,7 +580,7 @@ func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 		Title:      r.FormValue("title"),
 		Content:    r.FormValue("content"),
 		ImageURL:   filePath,
-		CreatedBy:  r.FormValue("created_by"),
+		CreatedBy:  userDatas.Username,
 		CategoryID: atoi(r.FormValue("category_id")),
 		Approved:   r.FormValue("approved") == "true",
 	}

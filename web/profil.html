@@ -19,19 +19,36 @@
         <p><strong>Nom :</strong> <span id="name">{{.User}}</span></p>
         <p><strong>Mail :</strong> <span id="mail">{{.Mail}}</span></p>
         <p><strong>Date d'inscription :</strong> <span id="join-date">{{.JoinDate}}</span></p>
-        <p><strong>Nombre de posts :</strong> <span id="post-count">{{.PostCount}}</span></p>
     </div>
+
     <div class="posts">
-        <h2>Posts Récents</h2>
-        <div id="posts-container">
-            {{range .Posts}}
+        <h2>Posts Créés</h2>
+        <div id="created-posts-container">
+            {{range .CreatedPosts}}
             <div class="post">
                 <h3>{{.Title}}</h3>
                 <p>{{.Content}}</p>
             </div>
+            {{else}}
+            <p>Aucun post créé trouvé.</p>
             {{end}}
         </div>
     </div>
+
+    <div class="posts">
+        <h2>Posts Likés</h2>
+        <div id="liked-posts-container">
+            {{range .LikedPosts}}
+            <div class="post">
+                <h3>{{.Title}}</h3>
+                <p>{{.Content}}</p>
+            </div>
+            {{else}}
+            <p>Aucun post liké trouvé.</p>
+            {{end}}
+        </div>
+    </div>
+
     <form action="/update_user" method="GET">
         <button type="submit" class="profile-btn">Modifier les informations</button>
     </form>
