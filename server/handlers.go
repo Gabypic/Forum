@@ -150,7 +150,10 @@ func handleProfilPage(w http.ResponseWriter, r *http.Request) {
 	new_password := r.FormValue("new_password")
 
 	if new_username != "" || new_email != "" || new_password != "" {
-		application.UpdateUser(user)
+		err := application.UpdateUser(userDatas.Username, new_username, new_email, new_password)
+		if err != nil {
+			fmt.Println("erreur de la modification du compte ", err)
+		}
 	}
 
 	var guestLogin bool
