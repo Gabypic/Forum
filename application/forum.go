@@ -59,16 +59,19 @@ type Reaction struct {
 	CreatedAt time.Time
 }
 
+// Function that hashes a password using bcrypt
 func Password(password string) (string, error) {
 	hach, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	return string(hach), err
 }
 
+// Function that checks a password against a hash using bcrypt
 func CheckPassword(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
 }
 
+// Function that creates a user in the database
 func CreateUser(user *User) error {
 	hashedPassword, err := Password(user.Password)
 	if err != nil {
@@ -86,6 +89,7 @@ func CreateUser(user *User) error {
 	return err
 }
 
+// Function that retrieves a user by email
 func GetUser(email string) (*User, error) {
 	var user User
 	query := `SELECT id, username, email, password, created_at FROM users WHERE email = ?`
@@ -112,6 +116,7 @@ func GetUser(email string) (*User, error) {
 	return &user, nil
 }
 
+// Function that retrieves a user by username
 func GetUserByName(name string) (*User, error) {
 	var user User
 	query := `SELECT id, username, email, password, created_at, admin, modo, guest FROM users WHERE username = ?`
@@ -138,6 +143,7 @@ func GetUserByName(name string) (*User, error) {
 	return &user, nil
 }
 
+// Function that updates a user's information
 func UpdateUser(ancientName string, name string, email string, password string) error {
 	hashedPassword, err := Password(password)
 	if err != nil {
@@ -153,6 +159,7 @@ func UpdateUser(ancientName string, name string, email string, password string) 
 	return err
 }
 
+// Function that deletes a user from the database
 func DeleteUser(username string) error {
 	query := `DELETE FROM users WHERE username = ?`
 	_, err := DB.Exec(query, username)
@@ -162,6 +169,7 @@ func DeleteUser(username string) error {
 	return err
 }
 
+// Function that creates a category in the database
 func CreateCategory(category *Category) error {
 	category.CreatedAt = time.Now()
 
@@ -173,6 +181,7 @@ func CreateCategory(category *Category) error {
 	return err
 }
 
+// Function that retrieves a category by ID
 func GetCategory(id int) (*Category, error) {
 	var category Category
 	query := `SELECT id, name, description, created_by, created_at FROM categories WHERE id = ?`
@@ -186,6 +195,7 @@ func GetCategory(id int) (*Category, error) {
 	return &category, err
 }
 
+// Function that updates a category's information
 func UpdateCategory(category *Category) error {
 	query := `UPDATE categories SET name = ?, description = ?, created_by = ? WHERE id = ?`
 	_, err := DB.Exec(query, category.Name, category.Description, category.CreatedBy, category.ID)
@@ -195,6 +205,7 @@ func UpdateCategory(category *Category) error {
 	return err
 }
 
+// Function that deletes a category from the database
 func DeleteCategory(id int) error {
 	query := `DELETE FROM categories WHERE id = ?`
 	_, err := DB.Exec(query, id)
@@ -204,6 +215,7 @@ func DeleteCategory(id int) error {
 	return err
 }
 
+// Function that creates a post in the database
 func CreatePost(post *Post) error {
 	post.CreatedAt = time.Now()
 
@@ -215,6 +227,7 @@ func CreatePost(post *Post) error {
 	return err
 }
 
+// Function that retrieves a post by ID
 func GetPost(id int) (*Post, error) {
 	var post Post
 	query := `SELECT id, title, content, image_url, created_by, category_id, created_at, approved FROM posts WHERE id = ?`
@@ -228,6 +241,7 @@ func GetPost(id int) (*Post, error) {
 	return &post, err
 }
 
+// Function that updates a post's information
 func UpdatePost(post *Post) error {
 	query := `UPDATE posts SET title = ?, content = ?, image_url = ?, created_by = ?, category_id = ?, approved = ? WHERE id = ?`
 	_, err := DB.Exec(query, post.Title, post.Content, post.ImageURL, post.CreatedBy, post.CategoryID, post.Approved, post.ID)
@@ -237,6 +251,7 @@ func UpdatePost(post *Post) error {
 	return err
 }
 
+// Function that deletes a post from the database
 func DeletePost(id int) error {
 	query := `DELETE FROM posts WHERE id = ?`
 	_, err := DB.Exec(query, id)
@@ -246,6 +261,7 @@ func DeletePost(id int) error {
 	return err
 }
 
+// Function that creates a comment in the database
 func CreateComment(comment *Comment) error {
 	comment.CreatedAt = time.Now()
 
@@ -257,6 +273,7 @@ func CreateComment(comment *Comment) error {
 	return err
 }
 
+// Function that retrieves a comment by ID
 func GetComment(id int) (*Comment, error) {
 	var comment Comment
 	query := `SELECT id, content, created_by, post_id, created_at, approved FROM comments WHERE id = ?`
@@ -270,6 +287,7 @@ func GetComment(id int) (*Comment, error) {
 	return &comment, err
 }
 
+// Function that updates a comment's information
 func UpdateComment(comment *Comment) error {
 	query := `UPDATE comments SET content = ? WHERE id = ?`
 	_, err := DB.Exec(query, comment.Content, comment.ID)
@@ -279,6 +297,7 @@ func UpdateComment(comment *Comment) error {
 	return err
 }
 
+// Function that deletes a comment from the database
 func DeleteComment(id int) error {
 	query := `DELETE FROM comments WHERE id = ?`
 	_, err := DB.Exec(query, id)
@@ -288,6 +307,7 @@ func DeleteComment(id int) error {
 	return err
 }
 
+// Function that creates a reaction in the database
 func CreateReaction(reaction *Reaction) error {
 	reaction.CreatedAt = time.Now()
 
@@ -300,6 +320,7 @@ func CreateReaction(reaction *Reaction) error {
 	return nil
 }
 
+// Function that deletes a reaction from the database
 func DeleteReaction(reaction *Reaction) error {
 	query := `DELETE FROM reactions WHERE type = ? AND created_by = ? AND post_id = ? AND comment_id = ?`
 	_, err := DB.Exec(query, reaction.Type, reaction.CreatedBy, reaction.PostID, reaction.CommentID)
@@ -310,6 +331,7 @@ func DeleteReaction(reaction *Reaction) error {
 	return nil
 }
 
+// Function that gets the reaction count for a post or comment
 func GetReactionCount(postID *int, commentID *int, reactionType string) (int, error) {
 	var count int
 	var query string
@@ -331,6 +353,7 @@ func GetReactionCount(postID *int, commentID *int, reactionType string) (int, er
 	return count, nil
 }
 
+// Function that toggles a reaction (like/unlike)
 func ToggleReaction(reaction *Reaction) error {
 	hasLiked, err := UserHasReacted(reaction.CreatedBy, reaction.PostID, reaction.CommentID, "like")
 	if err != nil {
@@ -370,6 +393,7 @@ func ToggleReaction(reaction *Reaction) error {
 	return nil
 }
 
+// Function that checks if a user has reacted to a post or comment
 func UserHasReacted(createdBy string, postID *int, commentID *int, reactionType string) (bool, error) {
 	var count int
 	query := `SELECT COUNT(*) FROM reactions WHERE type = ? AND created_by = ? AND post_id = ? AND comment_id = ?`
@@ -380,14 +404,17 @@ func UserHasReacted(createdBy string, postID *int, commentID *int, reactionType 
 	return count > 0, nil
 }
 
+// Function that gets the like count for a post or comment
 func GetLikeCount(postID *int, commentID *int) (int, error) {
 	return GetReactionCount(postID, commentID, "like")
 }
 
+// Function that gets the unlike count for a post or comment
 func GetUnlikeCount(postID *int, commentID *int) (int, error) {
 	return GetReactionCount(postID, commentID, "unlike")
 }
 
+// Function that gets posts created by a user
 func GetPostsByUser(username string) ([]Post, error) {
 	rows, err := DB.Query(`
         SELECT id, title, content, image_url, created_by, category_id, created_at, approved
@@ -409,6 +436,7 @@ func GetPostsByUser(username string) ([]Post, error) {
 	return posts, nil
 }
 
+// Function that gets posts liked by a user
 func GetLikedPostsByUser(username string) ([]Post, error) {
 	rows, err := DB.Query(`
         SELECT p.id, p.title, p.content, p.image_url, p.created_by, p.category_id, p.created_at, p.approved
@@ -431,6 +459,7 @@ func GetLikedPostsByUser(username string) ([]Post, error) {
 	return posts, nil
 }
 
+// Function that gets the count of posts liked by a user
 func GetLikedPostCountByUser(username string) (int, error) {
 	var count int
 	query := `SELECT COUNT(*) FROM reactions WHERE type = 'like' AND created_by = ? AND post_id IS NOT NULL`
@@ -441,6 +470,7 @@ func GetLikedPostCountByUser(username string) (int, error) {
 	return count, nil
 }
 
+// Function that retrieves all categories
 func GetAllCategories() ([]Category, error) {
 	rows, err := DB.Query("SELECT id, name, description, created_by, created_at FROM categories")
 	if err != nil {
@@ -460,6 +490,7 @@ func GetAllCategories() ([]Category, error) {
 	return categories, nil
 }
 
+// Function that retrieves recent posts with their comments
 func GetRecentPostsWithComments() ([]Post, error) {
 	rows, err := DB.Query("SELECT id, title, content, image_url, created_by, category_id, created_at, approved FROM posts ORDER BY created_at DESC LIMIT 10")
 	if err != nil {
@@ -484,6 +515,7 @@ func GetRecentPostsWithComments() ([]Post, error) {
 	return posts, nil
 }
 
+// Function that retrieves all comments
 func GetAllComments() ([]Comment, error) {
 	rows, err := DB.Query("SELECT id, content, created_by, post_id, created_at, approved FROM comments")
 	if err != nil {
@@ -503,6 +535,7 @@ func GetAllComments() ([]Comment, error) {
 	return comments, nil
 }
 
+// Function that retrieves comments by post ID
 func GetCommentsByPostID(postID int) ([]Comment, error) {
 	rows, err := DB.Query("SELECT id, content, created_by, post_id, created_at, approved FROM comments WHERE post_id = ?", postID)
 	if err != nil {
@@ -522,6 +555,7 @@ func GetCommentsByPostID(postID int) ([]Comment, error) {
 	return comments, nil
 }
 
+// Function that retrieves posts by category ID
 func GetPostsByCategoryID(categoryID int) ([]Post, error) {
 	rows, err := DB.Query("SELECT id, title, content, image_url, created_by, category_id, created_at, approved FROM posts WHERE category_id = ? ORDER BY created_at DESC", categoryID)
 	if err != nil {
@@ -541,6 +575,7 @@ func GetPostsByCategoryID(categoryID int) ([]Post, error) {
 	return posts, nil
 }
 
+// Function that retrieves uncategorized posts with their comments
 func GetUncategorizedPostsWithComments() ([]Post, error) {
 	rows, err := DB.Query("SELECT id, title, content, image_url, created_by, category_id, created_at, approved FROM posts WHERE category_id IS NULL ORDER BY created_at DESC LIMIT 10")
 	if err != nil {
@@ -560,6 +595,7 @@ func GetUncategorizedPostsWithComments() ([]Post, error) {
 	return posts, nil
 }
 
+// Function that retrieves all usernames
 func GetAllUsers() ([]string, error) {
 	rows, err := DB.Query("SELECT username FROM users")
 	if err != nil {
