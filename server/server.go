@@ -6,12 +6,14 @@ import (
 	"net/http"
 )
 
+// Function that initializes and starts the server
 func Start() {
 	cfg := application.LoadConfig()
 	application.Connect(cfg.DatabaseURL)
 	application.SqlTable()
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	// Handling static files
 
 	http.HandleFunc("/login", handleLoginPage)
 	http.HandleFunc("/create_account", handleRegisterPage)
@@ -38,16 +40,20 @@ func Start() {
 	http.HandleFunc("/delete_user", delete_account)
 	http.HandleFunc("/update_user", handle_modification_user)
 	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
+	// Handling the various application routes
 
 	log.Println("Listening on :8080...")
+	// Starting the server on port 8080
 
 	users, err := application.GetAllUsers()
 	if err != nil {
 		return
 	}
 	print(users)
+	// Retrieving and displaying all users
 
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
 	}
+	// Starting the HTTP server.
 }
