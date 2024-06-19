@@ -7,15 +7,23 @@
 <body>
     <h1>Créer un commentaire</h1>
     <form action="/create_comment" method="post">
+        <!-- Form for creating a comment -->
+        
         <label for="content">Commentaire:</label>
         <textarea id="content" name="content" required></textarea>
+        <!-- Textarea for the comment content, required -->
+
         <br>
         <input type="hidden" id="post_id" name="post_id" value="{{.PostID}}" required>
         <input type="hidden" id="category_id" name="category_id" value="{{.CategoryID}}" required>
+        <!-- Hidden input fields for post ID and category ID, required -->
+
         <br>
         <button type="submit">Créer le commentaire</button>
+        <!-- Submit button to create the comment -->
     </form>
     <br>
     <a href="/view_post?id={{.Post.ID}}">Retour</a>
+    <!-- Link to return to the post view -->
 </body>
 </html>

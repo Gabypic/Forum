@@ -9,12 +9,19 @@
     <h1>Modifier le commentaire</h1>
     <form action="/update_comment" method="post">
         <input type="hidden" name="id" value="{{.Comment.ID}}">
+        <!-- Hidden input field for the comment ID -->
+
         <label for="content">Contenu:</label>
         <textarea id="content" name="content" required>{{.Comment.Content}}</textarea>
+        <!-- Textarea for the comment content, pre-filled with the current content, required -->
+
         <input type="hidden" id="post_id" name="post_id" value="{{.Comment.PostID}}">
+        <!-- Hidden input field for the post ID -->
+
         <br>
         <br>
         <button type="submit">Modifier le commentaire</button>
+        <!-- Submit button to update the comment -->
     </form>
     <br>
 </body>

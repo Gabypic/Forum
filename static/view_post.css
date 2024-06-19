@@ -6,6 +6,8 @@ body {
     position: relative;
 }
 
+/* Base style for the document body */
+
 header {
     display: flex;
     justify-content: space-between;
@@ -15,15 +17,21 @@ header {
     color: white;
 }
 
+/* Style for the header */
+
 header .search-bar input {
     padding: 5px;
     border-radius: 4px;
     border: none;
 }
 
+/* Style for the search bar in the header */
+
 header form {
     margin: 0;
 }
+
+/* Removal of margins for the form in the header */
 
 header .profile-btn {
     background-color: #4CAF50;
@@ -34,19 +42,27 @@ header .profile-btn {
     cursor: pointer;
 }
 
+/* Style for the profile button in the header */
+
 header .profile-btn:hover {
     background-color: #45a049;
 }
+
+/* Change of background color of the profile button on hover */
 
 h1 {
     font-size: 24px;
     margin-bottom: 10px;
 }
 
+/* Style for the h1 elements */
+
 p {
     font-size: 16px;
     line-height: 1.5;
 }
+
+/* Style for the p elements */
 
 img {
     max-width: 100%;
@@ -54,9 +70,13 @@ img {
     margin: 10px 0;
 }
 
+/* Style for the img elements */
+
 form {
     margin: 10px 0;
 }
+
+/* Style for the form elements */
 
 button, .createBtn {
     background-color: #4CAF50;
@@ -68,14 +88,20 @@ button, .createBtn {
     margin-right: 5px;
 }
 
+/* Style for the button and createBtn elements */
+
 button:hover, .createBtn:hover {
     background-color: #45a049;
 }
+
+/* Change of background color of the button and createBtn elements on hover */
 
 ul {
     list-style-type: none;
     padding: 0;
 }
+
+/* Removal of bullets and padding for the ul elements */
 
 li {
     background-color: #fff;
@@ -85,14 +111,20 @@ li {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Style for the li elements */
+
 a {
     color: #007BFF;
     text-decoration: none;
 }
 
+/* Style for links */
+
 a:hover {
     text-decoration: underline;
 }
+
+/* Addition of underline to links on hover */
 
 .deleteBtn {
     background-color: #f44336;
@@ -103,9 +135,13 @@ a:hover {
     cursor: pointer;
 }
 
+/* Style for the delete button */
+
 .deleteBtn:hover {
     background-color: #e53935;
 }
+
+/* Change of background color of the delete button on hover */
 
 .modifyBtn {
     background-color: #ffc107;
@@ -116,18 +152,26 @@ a:hover {
     cursor: pointer;
 }
 
+/* Style for the modify button */
+
 .modifyBtn:hover {
     background-color: #ffb300;
 }
+
+/* Change of background color of the modify button on hover */
 
 .comments {
     margin-top: 10px;
 }
 
+/* Style for the comments section */
+
 .comments ul {
     list-style-type: none;
     padding: 0;
 }
+
+/* Removal of bullets and padding for the comments list */
 
 .comments li {
     background-color: #f9f9f9;
@@ -137,9 +181,13 @@ a:hover {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Style for the list items in the comments */
+
 .comments p {
     margin: 0;
 }
+
+/* Removal of margins for paragraphs in comments */
 
 .comments .comment-actions {
     display: flex;
@@ -147,9 +195,13 @@ a:hover {
     margin-top: 10px;
 }
 
+/* Style for comment actions */
+
 .comments .comment-actions form {
     display: inline;
 }
+
+/* Inline display for forms in comment actions */
 
 .post-header {
     display: flex;
@@ -158,14 +210,20 @@ a:hover {
     position: relative;
 }
 
+/* Style for the post-header */
+
 .top-right {
     position: absolute;
     top: 20px;
     right: 20px;
 }
 
+/* Style for elements positioned in the top right */
+
 .bottom-right {
     position: absolute;
     bottom: 20px;
     right: 20px;
 }
+
+/* Style for elements positioned in the bottom right */

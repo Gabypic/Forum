@@ -5,11 +5,15 @@ body {
     padding: 20px;
 }
 
+/* Base style for the document body */
+
 h1 {
     font-size: 24px;
     margin-bottom: 20px;
     color: #333;
 }
+
+/* Style for the header */
 
 form {
     background-color: #fff;
@@ -18,11 +22,15 @@ form {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Style for the form */
+
 label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
 }
+
+/* Style for the labels */
 
 textarea {
     width: 100%;
@@ -31,6 +39,8 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+/* Style for the text areas */
 
 button {
     background-color: #4CAF50;
@@ -41,6 +51,10 @@ button {
     cursor: pointer;
 }
 
+/* Style for the buttons */
+
 button:hover {
     background-color: #45a049;
 }
+
+/* Change of background color of the buttons on hover */

@@ -10,9 +10,13 @@
     <p>{{.Post.Content}}</p>
     <form action="/delete_post" method="post">
         <input type="hidden" name="id" value="{{.Post.ID}}">
+        <!-- Hidden input field for the post ID -->
+
         <button type="submit">Yes, Delete</button>
+        <!-- Submit button to confirm deletion -->
     </form>
     <br>
     <a href="/view_category_posts?id={{.Post.CategoryID}}">Retour</a>
+    <!-- Link to return to the category posts view -->
 </body>
 </html>

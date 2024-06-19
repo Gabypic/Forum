@@ -9,16 +9,21 @@
     <p>{{.Category.Description}}</p>
     <p>Créé par : {{.Category.CreatedBy}}</p>
     <p>Date de création : {{.Category.CreatedAt}}</p>
-
     <form action="/update_category" method="GET">
         <button>Modifier la catégorie</button>
     </form>
+    <!-- Form for updating the category -->
+
     <form action="/delete_category" method="POST">
         <input type="hidden" name="id" value="{{.Category.ID}}">
         <button type="submit">Supprimer la catégorie</button>
     </form>
+    <!-- Form for deleting the category with a hidden input for the category ID -->
+
     <form action="/home" method="GET">
         <button>Retour à l'accueil</button>
     </form>
+    <!-- Form for returning to the home page -->
+
 </body>
 </html>

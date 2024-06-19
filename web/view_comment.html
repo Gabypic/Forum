@@ -11,13 +11,17 @@
     <p>Approved: {{if .Comment.Approved}}Yes{{else}}No{{end}}</p>
     <br>
     {{if .ShowEditDeleteButtons}}
+    <!-- Conditional display for Edit and Delete buttons -->
     <a href="/update_comment?id={{.Comment.ID}}">Edit Comment</a>
     <form action="/delete_comment" method="post" style="display:inline;">
         <input type="hidden" name="id" value="{{.Comment.ID}}">
+        <!-- Hidden input field for the comment ID -->
         <button type="submit">Delete Comment</button>
+        <!-- Submit button to delete the comment -->
     </form>
     <br>
     {{end}}
     <a href="/home">Back to Home</a>
+    <!-- Link to go back to the home page -->
 </body>
 </html>
