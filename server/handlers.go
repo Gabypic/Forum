@@ -4,8 +4,10 @@ import (
 	"Forum/application"
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -521,16 +523,48 @@ func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	r.ParseMultipartForm(20 << 20) // Limite de 20 Mo
+
+	file, header, err := r.FormFile("image")
+	var filePath string
+	if err == nil {
+		defer file.Close()
+		fileType := header.Header.Get("Content-Type")
+		if fileType != "image/jpeg" && fileType != "image/png" && fileType != "image/gif" {
+			http.Error(w, "Invalid file type", http.StatusBadRequest)
+			return
+		}
+
+		if header.Size > 20*1024*1024 {
+			http.Error(w, "File is too large", http.StatusBadRequest)
+			return
+		}
+
+		filePath = fmt.Sprintf("./images/%s", header.Filename)
+		out, err := os.Create(filePath)
+		if err != nil {
+			http.Error(w, "Unable to create the file for writing", http.StatusInternalServerError)
+			return
+		}
+		defer out.Close()
+
+		_, err = io.Copy(out, file)
+		if err != nil {
+			http.Error(w, "Error copying the file", http.StatusInternalServerError)
+			return
+		}
+	}
+
 	post := application.Post{
 		Title:      r.FormValue("title"),
 		Content:    r.FormValue("content"),
-		ImageURL:   r.FormValue("image_url"),
+		ImageURL:   filePath,
 		CreatedBy:  r.FormValue("created_by"),
 		CategoryID: atoi(r.FormValue("category_id")),
 		Approved:   r.FormValue("approved") == "true",
 	}
 
-	err := application.CreatePost(&post)
+	err = application.CreatePost(&post)
 	if err != nil {
 		http.Error(w, "Failed to create post", http.StatusInternalServerError)
 		return

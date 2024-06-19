@@ -19,7 +19,7 @@
         <input type="hidden" name="type" value="unlike">
         <input type="hidden" name="post_id" value="{{.Post.ID}}">
         <input type="hidden" name="comment_id" value="">
-        <button type="submit">Unlike</button> <span>{{.UnlikeCount}}</span>
+        <button type="submit">Dislike</button> <span>{{.UnlikeCount}}</span>
     </form>
     <h2>Commentaires</h2>
     <ul>
@@ -36,7 +36,7 @@
                 <input type="hidden" name="type" value="unlike">
                 <input type="hidden" name="post_id" value="">
                 <input type="hidden" name="comment_id" value="{{.ID}}">
-                <button type="submit">Unlike</button> <span>{{index $.CommentUnlikeCounts .ID}}</span>
+                <button type="submit">Dislike</button> <span>{{index $.CommentUnlikeCounts .ID}}</span>
             </form>
             {{if $.ShowEditDeleteButtons}}
             <form action="/update_comment" method="GET" style="display:inline;">

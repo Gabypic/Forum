@@ -34,7 +34,6 @@ func Start() {
 	http.HandleFunc("/disconnect", disconnection)
 	http.HandleFunc("/like", handleLike)
 	http.HandleFunc("/unlike", handleUnlike)
-
 	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
 
 	log.Println("Listening on :8080...")
