@@ -9,11 +9,13 @@
 <body>
 <header>
     <div class="search-bar">
+        <!-- class for the search input and suggestions -->
         <form method="GET" action="">
             <input type="text" name="query" placeholder="Recherche..." value="{{.Query}}">
             <button type="submit">Rechercher</button>
         </form>
         <div class="suggestions">
+            <!-- class for displaying search suggestions -->
             {{if .Suggestions}}
             <ul>
                 {{range .Suggestions}}
@@ -25,17 +27,22 @@
     </div>
     <form method="GET" action="/profil">
         <button class="profile-btn">Profil</button>
+        <!-- class for the profile button -->
     </form>
 </header>
 
 {{if not .guestLogin}}
 <div class="create">
+    <!--  class for the create post and category section -->
     <form action="/create_post" method="GET">
         <button class="createBtn" type="submit">Créer un post</button>
+        <!-- class for the create post button -->
     </form>
     <div class="dropdown">
         <button class="dropbtn">Catégories</button>
+        <!--  class for the categories dropdown button -->
         <div class="dropdown-content">
+            <!--  class for the dropdown menu items -->
             {{range .Categories}}
             <a href="/view_category_posts?id={{.ID}}">{{.Name}}</a>
             {{end}}
@@ -43,11 +50,13 @@
     </div>
     <form action="/create_category" method="GET">
         <button class="createBtn" type="submit">Créer une catégorie</button>
+        <!--  class for the create category button -->
     </form>
 </div>
 {{end}}
 
 <div class="posts">
+    <!--  class for the posts list section -->
     <h2>Posts dans la Catégorie {{.Category.Name}}</h2>
     <ul>
         {{range .Posts}}
@@ -57,6 +66,7 @@
             <form action="/view_post" method="GET" style="display:inline;">
                 <input type="hidden" name="id" value="{{.ID}}">
                 <button class="viewBtn" type="submit">Voir le post</button>
+                <!-- class for the view post button -->
             </form>
         </li>
         {{end}}

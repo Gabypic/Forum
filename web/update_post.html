@@ -9,18 +9,28 @@
     <h1>Modifier le post</h1>
     <form action="/update_post" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="{{.Post.ID}}">
+        <!-- Hidden input to store the post ID -->
+        
         <label for="title">Titre:</label>
         <input type="text" id="title" name="title" value="{{.Post.Title}}" required>
+        <!-- Input field for the post title, pre-filled with the current title, required -->
+
         <br>
         <label for="content">Contenu:</label>
         <textarea id="content" name="content" required>{{.Post.Content}}</textarea>
+        <!-- Textarea for the post content, pre-filled with the current content, required -->
+
         <br>
         <label for="image">Image:</label>
         <input type="file" id="image" name="image">
+        <!-- File input for uploading a new image -->
+
         <br>
         <button type="submit">Modifier</button>
+        <!-- Submit button to update the post -->
     </form>
     <br>
     <a href="/view_category_posts?id={{.Post.CategoryID}}">Retour</a>
+    <!-- Link to return to the category posts page -->
 </body>
 </html>

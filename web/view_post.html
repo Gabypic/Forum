@@ -7,15 +7,19 @@
 </head>
 <body>
     <div class="post-header">
+        <!-- class for the post header -->
         <h1>{{.Post.Title}}</h1>
         {{if $.ShowEditDeleteButtons}}
         <div class="buttons">
+            <!-- class for the buttons -->
             <form action="/update_post" method="GET" style="display:inline;">
                 <input type="hidden" name="id" value="{{.Post.ID}}">
+                <!-- hidden input for the post ID -->
                 <button class="modifyBtn" type="submit">Modifier</button>
             </form>
             <form action="/delete_post" method="POST" style="display:inline;">
                 <input type="hidden" name="id" value="{{.Post.ID}}">
+                <!-- hidden input for the post ID -->
                 <button class="deleteBtn" type="submit">Supprimer</button>
             </form>
         </div>
@@ -23,46 +27,57 @@
     </div>
     <p>{{.Post.Content}}</p>
     <img src="{{.Post.ImageURL}}" alt="Post Image">
+    <!-- image for the post -->
+
     <br>
     {{if not .guestLogin}}
     <form action="/like" method="POST">
         <input type="hidden" name="type" value="like">
         <input type="hidden" name="post_id" value="{{.Post.ID}}">
         <input type="hidden" name="comment_id" value="">
+        <!-- hidden inputs for the like action -->
         <button type="submit">Like</button> <span>{{.LikeCount}}</span>
     </form>
     <form action="/unlike" method="POST">
         <input type="hidden" name="type" value="unlike">
         <input type="hidden" name="post_id" value="{{.Post.ID}}">
         <input type="hidden" name="comment_id" value="">
+        <!-- hidden inputs for the unlike action -->
         <button type="submit">Dislike</button> <span>{{.UnlikeCount}}</span>
     </form>
     {{end}}
+    
     <h2>Commentaires</h2>
+    <!-- section for comments -->
     <ul>
         {{range .Comments}}
         <li>
-            <p>{{.Content}} - par {{.CreatedBy}}</p>
+            <p>{{.Content}} - by {{.CreatedBy}}</p>
             <form action="/like" method="POST">
                 <input type="hidden" name="type" value="like">
                 <input type="hidden" name="post_id" value="">
                 <input type="hidden" name="comment_id" value="{{.ID}}">
+                <!-- hidden inputs for the like action on comment -->
                 <button type="submit">Like</button> <span>{{index $.CommentLikeCounts .ID}}</span>
             </form>
             <form action="/unlike" method="POST">
                 <input type="hidden" name="type" value="unlike">
                 <input type="hidden" name="post_id" value="">
                 <input type="hidden" name="comment_id" value="{{.ID}}">
+                <!-- hidden inputs for the unlike action on comment -->
                 <button type="submit">Dislike</button> <span>{{index $.CommentUnlikeCounts .ID}}</span>
             </form>
             {{if $.ShowEditDeleteButtons}}
             <div class="comment-buttons">
+                <!-- class for the comment buttons -->
                 <form action="/update_comment" method="GET" style="display:inline;">
                     <input type="hidden" name="id" value="{{.ID}}">
+                    <!-- hidden input for the comment ID -->
                     <button type="submit">Modifier</button>
                 </form>
                 <form action="/delete_comment" method="POST" style="display:inline;">
                     <input type="hidden" name="id" value="{{.ID}}">
+                    <!-- hidden input for the comment ID -->
                     <button type="submit">Supprimer</button>
                 </form>
             </div>
@@ -70,14 +85,17 @@
         </li>
         {{end}}
     </ul>
+    
     {{if not .guestLogin}}
     <form action="/create_comment" method="GET">
         <input type="hidden" name="post_id" value="{{.Post.ID}}">
         <input type="hidden" name="category_id" value="{{.Post.CategoryID}}">
+        <!-- hidden inputs for creating a comment -->
         <button type="submit" class="createBtn">Ajouter un commentaire</button>
     </form>
     {{end}}
     <br>
     <a href="/view_category_posts?id={{.Post.CategoryID}}">Retour</a>
+    <!-- link to go back to category posts -->
 </body>
 </html>

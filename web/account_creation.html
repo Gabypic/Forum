@@ -7,25 +7,37 @@
 </head>
 <body>
 <div class="container">
+    <!-- container class containing the account creation and login sections -->
+
     <div class="create_account">
-        <h2>Création de compte</h2>
+        <!-- Class for the account creation section -->
+        
+        <h2>Account Creation</h2>
         <form action="/register" method="POST">
-            <label for="username">Nom d'utilisateur : </label>
+            <label for="username">Username: </label>
             <input type="text" id="username" name="username">
+            <!-- Input field for the username -->
 
-            <label for="email">Email :</label>
+            <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
+            <!-- Input field for the email, required  -->
 
-            <label for="password">Mot de passe :</label>
+            <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
+            <!-- Input field for the password, required  -->
 
-            <button type="submit">Créer un compte</button>
+            <button type="submit">Create Account</button>
+            <!-- Submit button to create an account -->
         </form>
     </div>
+
     <div class="connection-return">
-        <h2>Si vous possédez déjà un compte, connectez-vous</h2>
+        <!-- connection-return class for the login section if an account already exists -->
+
+        <h2>If you already have an account, log in</h2>
         <form action="/login" method="GET">
-            <button type="submit">Connexion</button>
+            <button type="submit">Login</button>
+            <!-- Submit button to go to the login page -->
         </form>
     </div>
 </div>

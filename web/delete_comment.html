@@ -10,9 +10,15 @@
     <form action="/delete_comment" method="post">
         <input type="hidden" name="id" value="{{.CommentID}}">
         <input type="hidden" name="category_id" value="{{.CategoryID}}">
+        <!-- Hidden input fields for the comment ID and category ID -->
+        
         <button type="submit">Yes, Delete</button>
+        <!-- Submit button to confirm deletion -->
     </form>
+
     <br>
+    
     <a href="/home">Cancel</a>
+    <!-- Link to cancel and go back to the home page -->
 </body>
 </html>

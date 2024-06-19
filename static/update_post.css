@@ -6,10 +6,14 @@ body {
     padding: 20px;
 }
 
+/* Base style for the document body */
+
 h1 {
     font-size: 24px;
     margin-bottom: 20px;
 }
+
+/* Style for the main heading */
 
 form {
     background-color: #fff;
@@ -20,11 +24,15 @@ form {
     margin: auto;
 }
 
+/* Style for the form */
+
 label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
 }
+
+/* Style for the labels */
 
 input[type="text"],
 textarea,
@@ -36,6 +44,8 @@ input[type="file"] {
     border-radius: 4px;
 }
 
+/* Style for text inputs, textarea, and file inputs */
+
 button {
     background-color: #4CAF50;
     border: none;
@@ -45,15 +55,23 @@ button {
     cursor: pointer;
 }
 
+/* Style for the button */
+
 button:hover {
     background-color: #45a049;
 }
+
+/* Change of background color of the button on hover */
 
 a {
     color: #007BFF;
     text-decoration: none;
 }
 
+/* Style for links */
+
 a:hover {
     text-decoration: underline;
 }
+
+/* Addition of underline to links on hover */

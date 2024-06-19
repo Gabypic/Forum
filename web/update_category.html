@@ -9,16 +9,25 @@
     <h1>Mettre à jour la catégorie</h1>
     <form action="/update_category" method="post">
         <input type="hidden" name="id" value="{{.Category.ID}}">
+        <!-- Hidden input field for the category ID -->
+
         <label for="name">Nom de la catégorie :</label>
         <input type="text" id="name" name="name" value="{{.Category.Name}}" required>
+        <!-- Input field for the category name, required -->
+
         <br>
         <label for="description">Description :</label>
         <textarea id="description" name="description" required>{{.Category.Description}}</textarea>
+        <!-- Textarea for the category description, required -->
+
         <br>
         <label for="created_by">Créé par :</label>
         <input type="text" id="created_by" name="created_by" value="{{.Category.CreatedBy}}" required>
+        <!-- Input field for the creator's name, required -->
+
         <br>
         <button type="submit">Mettre à jour</button>
+        <!-- Submit button to update the category -->
     </form>
     <br>
 </body>

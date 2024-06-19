@@ -8,21 +8,27 @@
 </head>
 <body>
 <div class="container">
+    <!-- container class containing the post creation form -->
+
     <h1>Créer un Post</h1>
     <form action="/create_post" method="post" enctype="multipart/form-data">
         <div class="form-group">
+            <!-- form-group class for the title input field -->
             <label for="title">Titre</label>
             <input type="text" id="title" name="title" required>
         </div>
         <div class="form-group">
+            <!-- form-group class for the content textarea -->
             <label for="content">Texte</label>
             <textarea id="content" name="content" rows="5" required></textarea>
         </div>
         <div class="form-group">
+            <!-- form-group class for the image file input -->
             <label for="image">Image</label>
             <input type="file" id="image" name="image" accept="image/jpeg, image/png, image/gif">
         </div>
         <div class="form-group">
+            <!-- form-group class for the category select dropdown -->
             <label for="category_id">Catégories :</label>
             <select id="category_id" name="category_id" required>
                 {{range .Categories}}
@@ -31,10 +37,12 @@
             </select>
         </div>
         <div class="form-group">
+            <!-- form-group class for the submit button -->
             <button type="submit">Créer le Post</button>
         </div>
     </form>
     <div class="form-group">
+        <!-- form-group class for the return button to the home page -->
         <button onclick="window.location.href='/home';">Retour à la page d'accueil</button>
     </div>
 </div>

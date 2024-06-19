@@ -7,22 +7,28 @@
 </head>
 <body>
 <div class="container">
+    <!-- class for the category creation form -->
+
     <h1>Créer une catégorie</h1>
     <form action="/create_category" method="post">
         <div class="form-group">
+            <!-- form-group class for the category name input -->
             <label for="name">Nom de la catégorie :</label>
             <input type="text" id="name" name="name" required>
         </div>
         <div class="form-group">
+            <!-- form-group class for the category description input -->
             <label for="description">Description :</label>
             <textarea id="description" name="description" required></textarea>
         </div>
         <div class="form-group">
+            <!-- form-group class for the submit button -->
             <button type="submit">Créer</button>
         </div>
     </form>
     <br>
     <div class="form-group">
+        <!-- form-group class for the return to home button -->
         <button onclick="window.location.href='/home';">Retour à l'accueil</button>
     </div>
 </div>
