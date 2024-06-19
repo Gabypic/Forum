@@ -18,7 +18,9 @@
             {{if .Suggestions}}
             <ul>
                 {{range .Suggestions}}
-                <li><a href="/profil">{{.}}</a></li>
+                <form method="get" action="/user_profil">
+                    <li><a href="/user_profil?username={{.}}">{{.}}</a></li>
+                </form>
                 {{end}}
             </ul>
             {{end}}

@@ -1007,6 +1007,44 @@ func disconnection(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "login", nil)
 }
 
+func handleUsersProfil(w http.ResponseWriter, r *http.Request) {
+	username := r.URL.Query().Get("username")
+
+	if username == "" {
+		http.Error(w, "Missing username", http.StatusBadRequest)
+		return
+	}
+
+	userDatas, err := application.GetUserByName(username)
+	if err != nil {
+		http.Error(w, "Error retrieving user data: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	createdPost, err := application.GetPostsByUser(username)
+	if err != nil {
+		http.Error(w, "Error retrieving user posts: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	likedPosts, err := application.GetLikedPostsByUser(username)
+	if err != nil {
+		http.Error(w, "Error retrieving user liked posts: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Println(likedPosts, "liked")
+
+	data := map[string]interface{}{
+		"User":         userDatas.Username,
+		"Mail":         userDatas.Email,
+		"JoinDate":     userDatas.CreatedAt,
+		"CreatedPosts": createdPost,
+		"LikedPosts":   likedPosts,
+	}
+
+	renderTemplate(w, "user_profil", data)
+}
+
 func atoi(s string) int {
 	value, err := strconv.Atoi(s)
 	if err != nil {
