@@ -138,25 +138,24 @@ func GetUserByName(name string) (*User, error) {
 	return &user, nil
 }
 
-func UpdateUser(user *User) error {
-	hashedPassword, err := Password(user.Password)
+func UpdateUser(name string, email string, password string) error {
+	hashedPassword, err := Password(Password)
 	if err != nil {
 		log.Printf("Error hashing password: %v", err)
 		return err
 	}
-	user.Password = hashedPassword
 
-	query := `UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?`
-	_, err = DB.Exec(query, user.Username, user.Email, user.Password, user.ID)
+	query := `UPDATE users SET username = ?, email = ?, password = ? WHERE name = ?`
+	_, err = DB.Exec(query, username, email, hashedPassword)
 	if err != nil {
 		log.Printf("Error updating user: %v", err)
 	}
 	return err
 }
 
-func DeleteUser(id string) error {
-	query := `DELETE FROM users WHERE id = ?`
-	_, err := DB.Exec(query, id)
+func DeleteUser(username string) error {
+	query := `DELETE FROM users WHERE username = ?`
+	_, err := DB.Exec(query, username)
 	if err != nil {
 		log.Printf("Error deleting user: %v", err)
 	}

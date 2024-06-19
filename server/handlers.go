@@ -145,6 +145,14 @@ func handleHomePageRegister(w http.ResponseWriter, r *http.Request) {
 func handleProfilPage(w http.ResponseWriter, r *http.Request) {
 	user, _ := GetSessionCookie(r)
 	userDatas, _ := GetSession(user)
+	new_username := r.FormValue("new_username")
+	new_email := r.FormValue("new_email")
+	new_password := r.FormValue("new_password")
+
+	if new_username != "" || new_email != "" || new_password != "" {
+		application.UpdateUser(user)
+	}
+
 	var guestLogin bool
 	if userDatas == nil {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
@@ -1043,6 +1051,27 @@ func handleUsersProfil(w http.ResponseWriter, r *http.Request) {
 	}
 
 	renderTemplate(w, "user_profil", data)
+}
+
+func delete_account(w http.ResponseWriter, r *http.Request) {
+	userTest, _ := GetSessionCookie(r)
+	userDatas, _ := GetSession(userTest)
+	application.DeleteUser(userDatas.Username)
+	ClearSessionCookie(w, userDatas.Id)
+	DeleteSession(userDatas.Id)
+	renderTemplate(w, "login", nil)
+}
+
+func handle_modification_user(w http.ResponseWriter, r *http.Request) {
+	userTest, _ := GetSessionCookie(r)
+	userDatas, _ := GetSession(userTest)
+
+	data := map[string]interface{}{
+		"User":  userDatas.Username,
+		"Email": userDatas.Mail,
+	}
+
+	renderTemplate(w, "update_user", data)
 }
 
 func atoi(s string) int {
