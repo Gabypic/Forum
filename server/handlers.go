@@ -413,10 +413,42 @@ func handleGetPostPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	likeCount, err := application.GetLikeCount(&id, nil)
+	if err != nil {
+		http.Error(w, "Failed to get like count", http.StatusInternalServerError)
+		return
+	}
+	unlikeCount, err := application.GetUnlikeCount(&id, nil)
+	if err != nil {
+		http.Error(w, "Failed to get unlike count", http.StatusInternalServerError)
+		return
+	}
+
+	commentLikeCounts := make(map[int]int)
+	commentUnlikeCounts := make(map[int]int)
+	for _, comment := range comments {
+		commentLikeCount, err := application.GetLikeCount(nil, &comment.ID)
+		if err != nil {
+			http.Error(w, "Failed to get comment like count", http.StatusInternalServerError)
+			return
+		}
+		commentUnlikeCount, err := application.GetUnlikeCount(nil, &comment.ID)
+		if err != nil {
+			http.Error(w, "Failed to get comment unlike count", http.StatusInternalServerError)
+			return
+		}
+		commentLikeCounts[comment.ID] = commentLikeCount
+		commentUnlikeCounts[comment.ID] = commentUnlikeCount
+	}
+
 	data := map[string]interface{}{
 		"Post":                  post,
 		"Comments":              comments,
 		"ShowEditDeleteButtons": showEditDeleteButtons,
+		"LikeCount":             likeCount,
+		"UnlikeCount":           unlikeCount,
+		"CommentLikeCounts":     commentLikeCounts,
+		"CommentUnlikeCounts":   commentUnlikeCounts,
 	}
 	renderTemplate(w, "view_post", data)
 }
@@ -802,18 +834,17 @@ func handleLike(w http.ResponseWriter, r *http.Request) {
 	}
 	userDatas, _ := GetSession(user)
 
-	reactionType := r.FormValue("type")
 	postID, _ := strconv.Atoi(r.FormValue("post_id"))
 	commentID, _ := strconv.Atoi(r.FormValue("comment_id"))
 
 	reaction := &application.Reaction{
-		Type:      reactionType,
+		Type:      "like",
 		CreatedBy: userDatas.Username,
 		PostID:    &postID,
 		CommentID: &commentID,
 	}
 
-	err = application.CreateReaction(reaction)
+	err = application.ToggleReaction(reaction)
 	if err != nil {
 		http.Error(w, "Failed to like", http.StatusInternalServerError)
 		return
@@ -830,18 +861,17 @@ func handleUnlike(w http.ResponseWriter, r *http.Request) {
 	}
 	userDatas, _ := GetSession(user)
 
-	reactionType := r.FormValue("type")
 	postID, _ := strconv.Atoi(r.FormValue("post_id"))
 	commentID, _ := strconv.Atoi(r.FormValue("comment_id"))
 
 	reaction := &application.Reaction{
-		Type:      reactionType,
+		Type:      "unlike",
 		CreatedBy: userDatas.Username,
 		PostID:    &postID,
 		CommentID: &commentID,
 	}
 
-	err = application.DeleteReaction(reaction)
+	err = application.ToggleReaction(reaction)
 	if err != nil {
 		http.Error(w, "Failed to unlike", http.StatusInternalServerError)
 		return

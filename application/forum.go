@@ -312,12 +312,62 @@ func DeleteReaction(reaction *Reaction) error {
 
 func GetReactionCount(postID *int, commentID *int, reactionType string) (int, error) {
 	var count int
-	query := `SELECT COUNT(*) FROM reactions WHERE type = ? AND post_id = ? AND comment_id = ?`
-	err := DB.QueryRow(query, reactionType, postID, commentID).Scan(&count)
-	if err != nil {
-		return 0, err
+	var query string
+
+	if postID != nil && commentID == nil {
+		query = `SELECT COUNT(*) FROM reactions WHERE type = ? AND post_id = ?`
+		err := DB.QueryRow(query, reactionType, *postID).Scan(&count)
+		if err != nil {
+			return 0, err
+		}
+	} else if postID == nil && commentID != nil {
+		query = `SELECT COUNT(*) FROM reactions WHERE type = ? AND comment_id = ?`
+		err := DB.QueryRow(query, reactionType, *commentID).Scan(&count)
+		if err != nil {
+			return 0, err
+		}
 	}
+
 	return count, nil
+}
+
+func ToggleReaction(reaction *Reaction) error {
+	hasLiked, err := UserHasReacted(reaction.CreatedBy, reaction.PostID, reaction.CommentID, "like")
+	if err != nil {
+		return err
+	}
+	hasUnliked, err := UserHasReacted(reaction.CreatedBy, reaction.PostID, reaction.CommentID, "unlike")
+	if err != nil {
+		return err
+	}
+
+	if hasLiked || hasUnliked {
+		err = DeleteReaction(&Reaction{
+			Type:      "like",
+			CreatedBy: reaction.CreatedBy,
+			PostID:    reaction.PostID,
+			CommentID: reaction.CommentID,
+		})
+		if err != nil {
+			return err
+		}
+		err = DeleteReaction(&Reaction{
+			Type:      "unlike",
+			CreatedBy: reaction.CreatedBy,
+			PostID:    reaction.PostID,
+			CommentID: reaction.CommentID,
+		})
+		if err != nil {
+			return err
+		}
+	}
+
+	err = CreateReaction(reaction)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func UserHasReacted(createdBy string, postID *int, commentID *int, reactionType string) (bool, error) {
@@ -328,6 +378,14 @@ func UserHasReacted(createdBy string, postID *int, commentID *int, reactionType 
 		return false, err
 	}
 	return count > 0, nil
+}
+
+func GetLikeCount(postID *int, commentID *int) (int, error) {
+	return GetReactionCount(postID, commentID, "like")
+}
+
+func GetUnlikeCount(postID *int, commentID *int) (int, error) {
+	return GetReactionCount(postID, commentID, "unlike")
 }
 
 func GetAllCategories() ([]Category, error) {
