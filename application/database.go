@@ -7,8 +7,10 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+// Global variable for the database
 var DB *sql.DB
 
+// Function that establishes a connection to the database
 func Connect(databaseURL string) {
 	var err error
 	DB, err = sql.Open("sqlite3", databaseURL)
@@ -23,6 +25,7 @@ func Connect(databaseURL string) {
 	log.Println("Database connected!")
 }
 
+// Function that creates the necessary tables in the database if they do not exist
 func SqlTable() {
 	query := `
     CREATE TABLE IF NOT EXISTS users(
@@ -81,6 +84,7 @@ func SqlTable() {
     );
     `
 
+	// Execution of the query to create the tables
 	_, err := DB.Exec(query)
 	if err != nil {
 		log.Fatal(err)
