@@ -3,7 +3,6 @@ package server
 import (
 	"Forum/application"
 	"errors"
-	"fmt"
 	"time"
 )
 
@@ -39,24 +38,19 @@ func CreateSession(username string) *Session {
 	}
 	// Initializes the Session structure with user data and expiration date.
 	sessions[sessionID] = session
-	fmt.Println("error session")
-	fmt.Println(sessions)
 	return session
 }
 
 // Function that retrieves a session by its ID.
 func GetSession(sessionID string) (*Session, error) {
-	fmt.Println(sessions)
 	session, exists := sessions[sessionID]
 	if !exists || session.ExpiresAt.Before(time.Now()) {
 		return nil, errors.New("session not found or expired")
 	}
-	fmt.Println(sessions)
 	return session, nil
 }
 
 // DeleteSession function that deletes a session by its ID.
 func DeleteSession(sessionID string) {
 	delete(sessions, sessionID)
-	fmt.Println(sessions)
 }

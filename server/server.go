@@ -45,13 +45,6 @@ func Start() {
 	log.Println("Listening on :8080...")
 	// Starting the server on port 8080
 
-	users, err := application.GetAllUsers()
-	if err != nil {
-		return
-	}
-	print(users)
-	// Retrieving and displaying all users
-
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
 	}

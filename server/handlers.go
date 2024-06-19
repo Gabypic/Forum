@@ -66,7 +66,6 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 
 		user, err := application.GetUser(email)
 		if err != nil || user == nil {
-			fmt.Println("1")
 			log.Printf("Error getting user: %v", err)
 			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 			return
@@ -76,14 +75,10 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 		SetSessionCookie(w, session.Id)
 
 		if !application.CheckPassword(password, user.Password) {
-			fmt.Println("2")
 			log.Println("Password does not match")
 			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 			return
 		}
-		fmt.Println("3")
-		fmt.Print("yoyoyo")
-		fmt.Println(user)
 		userDatas, _ = GetSession(session.Id)
 	}
 	if err != nil {
@@ -182,9 +177,6 @@ func handleProfilPage(w http.ResponseWriter, r *http.Request) {
 		guestLogin = false
 	}
 
-	log.Printf("Created posts: %v", createdPosts)
-	log.Printf("Liked posts: %v", likedPosts)
-
 	data := map[string]interface{}{
 		"User":         userDatas.Username,
 		"Mail":         userDatas.Mail,
@@ -229,22 +221,16 @@ func LoginUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	user, err := application.GetUser(email)
 	if err != nil || user == nil {
-		fmt.Println("1")
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 		return
 	}
-	fmt.Println(user.Username)
 	session := CreateSession(user.Username)
 	SetSessionCookie(w, session.Id)
 
 	if !application.CheckPassword(password, user.Password) {
-		fmt.Println("2")
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 		return
 	}
-	fmt.Println("3")
-	fmt.Print("yoyoyo")
-	fmt.Println(user)
 	renderTemplate(w, "home", nil)
 }
 
@@ -1044,7 +1030,6 @@ func handleUsersProfil(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error retrieving user liked posts: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println(likedPosts, "liked")
 
 	if userDatas != nil && (userDatas.Admin == true) {
 		isAdmin = true

@@ -609,7 +609,5 @@ func GetAllUsers() ([]string, error) {
 		}
 		users = append(users, user)
 	}
-	fmt.Print("users2")
-	fmt.Println(users)
 	return users, nil
 }
