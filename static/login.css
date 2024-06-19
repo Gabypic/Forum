@@ -14,20 +14,20 @@ body {
     align-items: center;
 }
 
-.login-container, .account-creation {
+.login-container, .account-creation, .guest {
     background-color: #fff;
     padding: 20px 20px 20px 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     margin-right: 20px;
-    background-image: url('../images/loginForum.png');
+    /*background-image: url('../images/loginForum.png');
     background-size: 120%;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat;*/
 }
 
-.login-container h2, .account-creation h2 {
+.login-container h2, .account-creation h2, .guest h2 {
     margin-bottom: 20px;
 }
 
@@ -40,7 +40,7 @@ body {
     border-radius: 4px;
 }
 
-.login-container button, .account-creation button {
+.login-container button, .account-creation button, .guest button {
     width: 100%;
     padding: 10px;
     color: white;
@@ -63,4 +63,12 @@ body {
 
 .account-creation button:hover {
     background-color: #0046C2;
+}
+
+.guest button {
+    background-color: #ffb300; ;
+}
+
+.guest button:hover {
+    background-color: #ffa500;
 }

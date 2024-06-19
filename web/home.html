@@ -29,6 +29,7 @@
     </form>
 </header>
 
+{{if not .guestLogin}}
 <div class="create">
     <form action="/create_post" method="GET">
         <button class="createBtn" type="submit">Créer un post</button>
@@ -45,6 +46,7 @@
         <button class="createBtn" type="submit">Créer une catégorie</button>
     </form>
 </div>
+{{end}}
 
 <div class="categories">
     <h2>Catégories</h2>

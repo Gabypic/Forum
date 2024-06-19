@@ -18,6 +18,7 @@ type User struct {
 	CreatedAt time.Time
 	Admin     bool
 	Modo      bool
+	Guest     bool
 }
 
 type Category struct {
@@ -77,8 +78,8 @@ func CreateUser(user *User) error {
 	user.Password = hashedPassword
 	user.CreatedAt = time.Now()
 
-	query := `INSERT INTO users (username, email, password, created_at, admin, modo) VALUES (?, ?, ?, ?, ?, ?)`
-	_, err = DB.Exec(query, user.Username, user.Email, user.Password, user.CreatedAt, 0, 0)
+	query := `INSERT INTO users (username, email, password, created_at, admin, modo, guest) VALUES (?, ?, ?, ?, ?, ?, ?)`
+	_, err = DB.Exec(query, user.Username, user.Email, user.Password, user.CreatedAt, 0, 0, 0)
 	if err != nil {
 		log.Printf("Error creating user: %v", err)
 	}
@@ -113,7 +114,7 @@ func GetUser(email string) (*User, error) {
 
 func GetUserByName(name string) (*User, error) {
 	var user User
-	query := `SELECT id, username, email, password, created_at, admin, modo FROM users WHERE username = ?`
+	query := `SELECT id, username, email, password, created_at, admin, modo, guest FROM users WHERE username = ?`
 	value, err := DB.Query(query, name)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -127,7 +128,7 @@ func GetUserByName(name string) (*User, error) {
 	defer value.Close()
 
 	if value.Next() {
-		errs := value.Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.CreatedAt, &user.Admin, &user.Modo)
+		errs := value.Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.CreatedAt, &user.Admin, &user.Modo, &user.Guest)
 		if errs != nil {
 			fmt.Print("errs")
 			fmt.Println(errs)

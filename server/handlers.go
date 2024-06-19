@@ -53,9 +53,15 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 	userTest, _ := GetSessionCookie(r)
 	userDatas, _ := GetSession(userTest)
 	var showEditDeleteButtons bool
+	var guestLogin bool
+	var session *Session
 	if userDatas == nil {
 		email := r.FormValue("email")
 		password := r.FormValue("password")
+		if email == "" && password == "" {
+			email = "guest@guest"
+			password = "guest"
+		}
 
 		user, err := application.GetUser(email)
 		if err != nil || user == nil {
@@ -65,7 +71,7 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		fmt.Println(user.Username)
-		session := CreateSession(user.Username)
+		session = CreateSession(user.Username)
 		SetSessionCookie(w, session.Id)
 
 		if !application.CheckPassword(password, user.Password) {
@@ -77,6 +83,7 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("3")
 		fmt.Print("yoyoyo")
 		fmt.Println(user)
+		userDatas, _ = GetSession(session.Id)
 	}
 	if err != nil {
 		http.Error(w, "Failed to load categories", http.StatusInternalServerError)
@@ -87,6 +94,12 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 		showEditDeleteButtons = true
 	} else {
 		showEditDeleteButtons = false
+	}
+
+	if userDatas != nil && (userDatas.Guest == true) {
+		guestLogin = true
+	} else {
+		guestLogin = false
 	}
 
 	posts, err := application.GetUncategorizedPostsWithComments()
@@ -118,6 +131,7 @@ func handleHomePage(w http.ResponseWriter, r *http.Request) {
 		"ShowEditDeleteButtons": showEditDeleteButtons,
 		"Query":                 query,
 		"Suggestions":           suggestions,
+		"guestLogin":            guestLogin,
 	}
 
 	renderTemplate(w, "home", data)
@@ -130,6 +144,7 @@ func handleHomePageRegister(w http.ResponseWriter, r *http.Request) {
 func handleProfilPage(w http.ResponseWriter, r *http.Request) {
 	user, _ := GetSessionCookie(r)
 	userDatas, _ := GetSession(user)
+	var guestLogin bool
 	if userDatas == nil {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
@@ -149,6 +164,12 @@ func handleProfilPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if userDatas != nil && (userDatas.Guest == true) {
+		guestLogin = true
+	} else {
+		guestLogin = false
+	}
+
 	log.Printf("Created posts: %v", createdPosts)
 	log.Printf("Liked posts: %v", likedPosts)
 
@@ -158,6 +179,7 @@ func handleProfilPage(w http.ResponseWriter, r *http.Request) {
 		"JoinDate":     userDatas.joinDate,
 		"CreatedPosts": createdPosts,
 		"LikedPosts":   likedPosts,
+		"guestLogin":   guestLogin,
 	}
 
 	renderTemplate(w, "profil", data)
@@ -411,11 +433,17 @@ func handleGetPostPage(w http.ResponseWriter, r *http.Request) {
 	request := r.URL.Query().Get("id")
 	userTest, _ := GetSessionCookie(r)
 	userDatas, _ := GetSession(userTest)
+	var guestLogin bool
 	var showEditDeleteButtons bool
 	if userDatas != nil && (userDatas.Admin == true || userDatas.Modo == true) {
 		showEditDeleteButtons = true
 	} else {
 		showEditDeleteButtons = false
+	}
+	if userDatas != nil && (userDatas.Guest == true) {
+		guestLogin = true
+	} else {
+		guestLogin = false
 	}
 	id, err := strconv.Atoi(request)
 	if err != nil {
@@ -470,6 +498,7 @@ func handleGetPostPage(w http.ResponseWriter, r *http.Request) {
 		"UnlikeCount":           unlikeCount,
 		"CommentLikeCounts":     commentLikeCounts,
 		"CommentUnlikeCounts":   commentUnlikeCounts,
+		"guestLogin":            guestLogin,
 	}
 	renderTemplate(w, "view_post", data)
 }

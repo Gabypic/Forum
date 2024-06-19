@@ -14,6 +14,7 @@
             <p><a href="mailto:{{.Email}}" id="email">{{.Email}}</a></p>
         </div>
     </div>
+    {{if not .guestLogin}}
     <div class="profile-details">
         <h2>Informations Personnelles</h2>
         <p><strong>Nom :</strong> <span id="name">{{.User}}</span></p>
@@ -52,14 +53,17 @@
     <form action="/update_user" method="GET">
         <button type="submit" class="profile-btn">Modifier les informations</button>
     </form>
+    {{end}}
     <form action="/disconnect" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir vous deconnecter?');">
         <input type="hidden" name="id" value="{{.UserID}}">
         <button type="submit" class="delete-btn">Se déconnecter</button>
     </form>
+    {{if not .guestLogin}}
     <form action="/delete_user" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ?');">
         <input type="hidden" name="id" value="{{.UserID}}">
         <button type="submit" class="delete-btn">Supprimer le compte</button>
     </form>
+    {{end}}
 </div>
 <a href="/home">Retour à la page d'accueil</a>
 </body>
