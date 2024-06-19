@@ -9,23 +9,43 @@
 <body>
 <header>
     <div class="search-bar">
-        <label>
-            <input type="text" placeholder="Recherche...">
-        </label>
+        <form method="GET" action="">
+            <input type="text" name="query" placeholder="Recherche..." value="{{.Query}}">
+            <button type="submit">Rechercher</button>
+        </form>
+        <div class="suggestions">
+            {{if .Suggestions}}
+            <ul>
+                {{range .Suggestions}}
+                <li><a href="/profil">{{.}}</a></li>
+                {{end}}
+            </ul>
+            {{end}}
+        </div>
     </div>
     <form method="GET" action="/profil">
         <button class="profile-btn">Profil</button>
     </form>
 </header>
 
+{{if not .guestLogin}}
 <div class="create">
     <form action="/create_post" method="GET">
         <button class="createBtn" type="submit">Créer un post</button>
     </form>
+    <div class="dropdown">
+        <button class="dropbtn">Catégories</button>
+        <div class="dropdown-content">
+            {{range .Categories}}
+            <a href="/view_category_posts?id={{.ID}}">{{.Name}}</a>
+            {{end}}
+        </div>
+    </div>
     <form action="/create_category" method="GET">
         <button class="createBtn" type="submit">Créer une catégorie</button>
     </form>
 </div>
+{{end}}
 
 <div class="posts">
     <h2>Posts dans la Catégorie {{.Category.Name}}</h2>
@@ -36,18 +56,8 @@
             <p>{{.Content}}</p>
             <form action="/view_post" method="GET" style="display:inline;">
                 <input type="hidden" name="id" value="{{.ID}}">
-                <button type="submit">Voir le post</button>
+                <button class="viewBtn" type="submit">Voir le post</button>
             </form>
-            {{if $.ShowEditDeleteButtons}}
-            <form action="/update_post" method="GET" style="display:inline;">
-                <input type="hidden" name="id" value="{{.ID}}">
-                <button type="submit">Modifier</button>
-            </form>
-            <form action="/delete_post" method="POST" style="display:inline;">
-                <input type="hidden" name="id" value="{{.ID}}">
-                <button type="submit">Supprimer</button>
-            </form>
-            {{end}}
         </li>
         {{end}}
     </ul>

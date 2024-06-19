@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>View Post</title>
+    <link href="../static/view_post.css" rel="stylesheet">
 </head>
 <body>
-    <h1>{{.Post.Title}}</h1>
+    <div class="post-header">
+        <h1>{{.Post.Title}}</h1>
+        {{if $.ShowEditDeleteButtons}}
+        <div class="buttons">
+            <form action="/update_post" method="GET" style="display:inline;">
+                <input type="hidden" name="id" value="{{.Post.ID}}">
+                <button class="modifyBtn" type="submit">Modifier</button>
+            </form>
+            <form action="/delete_post" method="POST" style="display:inline;">
+                <input type="hidden" name="id" value="{{.Post.ID}}">
+                <button class="deleteBtn" type="submit">Supprimer</button>
+            </form>
+        </div>
+        {{end}}
+    </div>
     <p>{{.Post.Content}}</p>
     <img src="{{.Post.ImageURL}}" alt="Post Image">
     <br>
@@ -41,14 +56,16 @@
                 <button type="submit">Dislike</button> <span>{{index $.CommentUnlikeCounts .ID}}</span>
             </form>
             {{if $.ShowEditDeleteButtons}}
-            <form action="/update_comment" method="GET" style="display:inline;">
-                <input type="hidden" name="id" value="{{.ID}}">
-                <button type="submit">Modifier</button>
-            </form>
-            <form action="/delete_comment" method="POST" style="display:inline;">
-                <input type="hidden" name="id" value="{{.ID}}">
-                <button type="submit">Supprimer</button>
-            </form>
+            <div class="comment-buttons">
+                <form action="/update_comment" method="GET" style="display:inline;">
+                    <input type="hidden" name="id" value="{{.ID}}">
+                    <button type="submit">Modifier</button>
+                </form>
+                <form action="/delete_comment" method="POST" style="display:inline;">
+                    <input type="hidden" name="id" value="{{.ID}}">
+                    <button type="submit">Supprimer</button>
+                </form>
+            </div>
             {{end}}
         </li>
         {{end}}
@@ -61,6 +78,6 @@
     </form>
     {{end}}
     <br>
-    <a href="/home">Retour à l'accueil</a>
+    <a href="/view_category_posts?id={{.Post.CategoryID}}">Retour</a>
 </body>
 </html>

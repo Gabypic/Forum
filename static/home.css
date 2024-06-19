@@ -1,3 +1,4 @@
+/* home.css */
 body {
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
@@ -127,6 +128,31 @@ header .profile-btn:hover {
 
 .categories li a:hover {
     text-decoration: underline;
+}
+
+/* Buttons for Modify and Delete */
+.modifyBtn, .deleteBtn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.modifyBtn {
+    background-color: #ffc107;
+}
+
+.modifyBtn:hover {
+    background-color: #ffb300;
+}
+
+.deleteBtn {
+    background-color: #f44336;
+}
+
+.deleteBtn:hover {
+    background-color: #e53935;
 }
 
 /* New CSS for search suggestions */

@@ -57,11 +57,11 @@
             {{if $.ShowEditDeleteButtons}}
             <form action="/update_category" method="GET" style="display:inline;">
                 <input type="hidden" name="id" value="{{.ID}}">
-                <button type="submit">Modifier</button>
+                <button class="modifyBtn" type="submit">Modifier</button>
             </form>
             <form action="/delete_category" method="POST" style="display:inline;">
                 <input type="hidden" name="id" value="{{.ID}}">
-                <button type="submit">Supprimer</button>
+                <button class="deleteBtn" type="submit">Supprimer</button>
             </form>
             {{end}}
         </li>

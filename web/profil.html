@@ -7,64 +7,79 @@
     <link rel="stylesheet" href="/static/profil.css">
 </head>
 <body>
-<div class="container">
-    <div class="profile-header">
-        <div>
-            <h1 id="username">{{.User}}</h1>
-            <p><a href="mailto:{{.Email}}" id="email">{{.Email}}</a></p>
-        </div>
+<header>
+    <div class="nav-bar">
+        <a href="#personal-info">Informations Personnelles</a>
+        <a href="#account">Compte</a>
     </div>
-    {{if not .guestLogin}}
-    <div class="profile-details">
-        <h2>Informations Personnelles</h2>
-        <p><strong>Nom :</strong> <span id="name">{{.User}}</span></p>
-        <p><strong>Mail :</strong> <span id="mail">{{.Mail}}</span></p>
-        <p><strong>Date d'inscription :</strong> <span id="join-date">{{.JoinDate}}</span></p>
-    </div>
+</header>
 
-    <div class="posts">
-        <h2>Posts Créés</h2>
-        <div id="created-posts-container">
-            {{range .CreatedPosts}}
-            <div class="post">
-                <h3>{{.Title}}</h3>
-                <p>{{.Content}}</p>
+<div id="personal-info" class="tab-content">
+    <div class="container">
+        <div class="profile-header">
+            <div>
+                <h1 id="username">{{.User}}</h1>
+                <p><a href="mailto:{{.Email}}" id="email">{{.Email}}</a></p>
             </div>
-            {{else}}
-            <p>Aucun post créé trouvé.</p>
-            {{end}}
         </div>
-    </div>
-
-    <div class="posts">
-        <h2>Posts Likés</h2>
-        <div id="liked-posts-container">
-            {{range .LikedPosts}}
-            <div class="post">
-                <h3>{{.Title}}</h3>
-                <p>{{.Content}}</p>
-            </div>
-            {{else}}
-            <p>Aucun post liké trouvé.</p>
-            {{end}}
+        {{if not .guestLogin}}
+        <div class="profile-details">
+            <h2>Informations Personnelles</h2>
+            <p><strong>Nom :</strong> <span id="name">{{.User}}</span></p>
+            <p><strong>Mail :</strong> <span id="mail">{{.Mail}}</span></p>
+            <p><strong>Date d'inscription :</strong> <span id="join-date">{{.JoinDate}}</span></p>
         </div>
-    </div>
 
-    <form action="/update_user" method="GET">
-        <button type="submit" class="profile-btn">Modifier les informations</button>
-    </form>
-    {{end}}
-    <form action="/disconnect" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir vous deconnecter?');">
-        <input type="hidden" name="id" value="{{.UserID}}">
-        <button type="submit" class="delete-btn">Se déconnecter</button>
-    </form>
-    {{if not .guestLogin}}
-    <form action="/delete_user" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ?');">
-        <input type="hidden" name="id" value="{{.UserID}}">
-        <button type="submit" class="delete-btn">Supprimer le compte</button>
-    </form>
-    {{end}}
+        <form action="/update_user" method="POST">
+            <input type="hidden" name="id" value="{{.UserID}}">
+            <button type="submit" class="profile-btn">Modifier les informations</button>
+        </form>
+        {{end}}
+        <form action="/disconnect" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir vous deconnecter?');">
+            <input type="hidden" name="id" value="{{.UserID}}">
+            <button type="submit" class="delete-btn">Se déconnecter</button>
+        </form>
+        {{if not .guestLogin}}
+        <form action="/delete_user" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ?');">
+            <input type="hidden" name="id" value="{{.UserID}}">
+            <button type="submit" class="delete-btn">Supprimer le compte</button>
+        </form>
+        {{end}}
+    </div>
 </div>
+
+<div id="account" class="tab-content">
+    <div class="container">
+        <div class="posts">
+            <h2>Posts Créés</h2>
+            <div id="created-posts-container">
+                {{range .CreatedPosts}}
+                <div class="post">
+                    <h3>{{.Title}}</h3>
+                    <p>{{.Content}}</p>
+                </div>
+                {{else}}
+                <p>Aucun post créé trouvé.</p>
+                {{end}}
+            </div>
+        </div>
+
+        <div class="posts">
+            <h2>Posts Likés</h2>
+            <div id="liked-posts-container">
+                {{range .LikedPosts}}
+                <div class="post">
+                    <h3>{{.Title}}</h3>
+                    <p>{{.Content}}</p>
+                </div>
+                {{else}}
+                <p>Aucun post liké trouvé.</p>
+                {{end}}
+            </div>
+        </div>
+    </div>
+</div>
+
 <a href="/home">Retour à la page d'accueil</a>
 </body>
 </html>

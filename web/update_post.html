@@ -2,11 +2,12 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Update Post</title>
+    <title>Modifier le post</title>
+    <link rel="stylesheet" href="../static/update_post.css">
 </head>
 <body>
     <h1>Modifier le post</h1>
-    <form action="/update_post" method="post">
+    <form action="/update_post" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="{{.Post.ID}}">
         <label for="title">Titre:</label>
         <input type="text" id="title" name="title" value="{{.Post.Title}}" required>
@@ -14,9 +15,12 @@
         <label for="content">Contenu:</label>
         <textarea id="content" name="content" required>{{.Post.Content}}</textarea>
         <br>
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image">
+        <br>
         <button type="submit">Modifier</button>
     </form>
     <br>
-    <a href="/home">Retour à l'accueil</a>
+    <a href="/view_category_posts?id={{.Post.CategoryID}}">Retour</a>
 </body>
 </html>
