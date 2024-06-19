@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// Structure containing user session information.
 type Session struct {
 	Id        string
 	Mail      string
@@ -23,6 +24,9 @@ var sessions = map[string]*Session{}
 func CreateSession(username string) *Session {
 	sessionID := application.GenerateUUID()
 	userDatas, _ := application.GetUserByName(username)
+	// Function that creates a new session for a user.
+	// Generates a new UUID for the session.
+	// Retrieves user data by username.
 	session := &Session{
 		Id:        sessionID,
 		Mail:      userDatas.Email,
@@ -33,12 +37,14 @@ func CreateSession(username string) *Session {
 		Guest:     userDatas.Guest,
 		ExpiresAt: time.Now().Add(24 * time.Hour),
 	}
+	// Initializes the Session structure with user data and expiration date.
 	sessions[sessionID] = session
 	fmt.Println("error session")
 	fmt.Println(sessions)
 	return session
 }
 
+// Function that retrieves a session by its ID.
 func GetSession(sessionID string) (*Session, error) {
 	fmt.Println(sessions)
 	session, exists := sessions[sessionID]
@@ -49,6 +55,7 @@ func GetSession(sessionID string) (*Session, error) {
 	return session, nil
 }
 
+// DeleteSession function that deletes a session by its ID.
 func DeleteSession(sessionID string) {
 	delete(sessions, sessionID)
 	fmt.Println(sessions)

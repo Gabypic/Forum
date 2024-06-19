@@ -8,11 +8,15 @@ body {
     margin: 0;
 }
 
+/* Base style for the document body */
+
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
+/* Style for the container */
 
 .login-container, .account-creation, .guest {
     background-color: #fff;
@@ -27,9 +31,13 @@ body {
     background-repeat: no-repeat;
 }
 
+/* Style for the login container, account creation, and guest sections */
+
 .login-container h2, .account-creation h2, .guest h2 {
     margin-bottom: 20px;
 }
+
+/* Style for the headings in login container, account creation, and guest sections */
 
 .login-container input[type="email"],
 .login-container input[type="password"] {
@@ -40,6 +48,8 @@ body {
     border-radius: 4px;
 }
 
+/* Style for the input fields in the login container */
+
 .login-container button, .account-creation button, .guest button {
     width: 100%;
     padding: 10px;
@@ -49,26 +59,40 @@ body {
     cursor: pointer;
 }
 
+/* Style for the buttons in login container, account creation, and guest sections */
+
 .login-container button {
     background-color: #4CAF50;
 }
+
+/* Style for the button in the login container */
 
 .login-container button:hover {
     background-color: #45a049;
 }
 
+/* Change of background color of the login container button on hover */
+
 .account-creation button {
     background-color: #015AEC;
 }
+
+/* Style for the button in the account creation section */
 
 .account-creation button:hover {
     background-color: #0046C2;
 }
 
+/* Change of background color of the account creation button on hover */
+
 .guest button {
     background-color: #ffb300; ;
 }
 
+/* Style for the button in the guest section */
+
 .guest button:hover {
     background-color: #ffa500;
 }
+
+/* Change of background color of the guest button on hover */

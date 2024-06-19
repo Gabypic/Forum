@@ -11,3 +11,5 @@ func main() {
 	log.Println("Starting server...")
 	server.Start()
 }
+
+// Function that initializes the server.
